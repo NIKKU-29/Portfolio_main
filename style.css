@@ -41,7 +41,7 @@ body {
   position: absolute;
   width: 1.5vw;
   height: 1.5vw;
-  border-radius: 50%;
+  border-radius: 5vw;
   background-color: transparent;
   mix-blend-mode: difference;
   pointer-events: none;
@@ -2338,7 +2338,7 @@ p2 {
   height: 30vw;
   background: rgba(250, 14, 69, 0.4);
   filter: blur(50px);
-  border-radius: 50%;
+  border-radius: 5vw;
   pointer-events: none;
   transform: translate(120%, -20%);
   transition: transform 0.1s ease;
@@ -2515,12 +2515,12 @@ canvas {
 }
 
 #stats {
-  border-radius: 3px 3px 0 0;
+  border-radius: 1vw 1vw 0 0;
   overflow: hidden;
 }
 
 .count-particles {
-  border-radius: 0 0 3px 3px;
+  border-radius: 0 0 1vw 1vw;
 }
 
 
@@ -2609,7 +2609,7 @@ canvas {
 }
 
 .card:nth-child(2):hover{
-  left: 4.8vw;
+  left: 0vw;
   z-index: 100;
 }
 
@@ -2619,7 +2619,7 @@ canvas {
 }
 
 .card:nth-child(3):hover {
-  left: 10vw;
+  left: 0vw;
   z-index: 200;
 }
 
@@ -2680,6 +2680,7 @@ canvas {
   margin-bottom: -1vw;
   display: none;
   transition: all 0.3s ease;
+  
 }
 
 .card-link {
@@ -2701,7 +2702,7 @@ canvas {
 .card:hover {
   width: 18vw;
   z-index: 2;
-  left: 50% !important; /* Ensures expanded card is centered */
+  left: 50%; /* Ensures expanded card is centered */
   transform: translateX(-50%);
   background-color: #fa0e40;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
@@ -2748,7 +2749,7 @@ canvas {
  
   margin-top: 2vw;
   display: flex;
-  height: 40vw;
+  height: 46vw;
 }
 
 .container {
@@ -2761,7 +2762,7 @@ canvas {
 .screen {
   position: relative;
   background: #202020;
-  border-radius: 15px;
+  border-radius: 2vw;
 }
 
 .screen:after {
@@ -2771,7 +2772,7 @@ canvas {
   top: 0;
   left: 50%;
   bottom: 0;
-  border-radius: 15px;
+  border-radius: 1.2vw;
   box-shadow: 0 20px 40px rgba(0, 0, 0, .4);
   z-index: -1;
 }
@@ -2818,7 +2819,7 @@ canvas {
   width: 0.4vw;
   height: 0.4vw;
   margin-left: 2px;
-  border-radius: 8px;
+  border-radius: 0.8vw;
   background: #999;
 }
 
@@ -2889,11 +2890,11 @@ canvas {
 }
 
 .app-form-group {
-  margin-bottom: 15px;
+  margin-bottom: 2vw;
 }
 
 .app-form-group.message {
-  margin-top: 40px;
+  margin-top: 2vw;
 }
 
 .app-form-group.buttons {
@@ -2907,7 +2908,7 @@ canvas {
   padding: 1vw 0;
   background: none;
   border: none;
-  border-bottom: 1px solid #666;
+  border-bottom: 0.2vw solid #666;
   color: #ddd;
   font-size: 1.5vw;
   text-transform: uppercase;
@@ -2946,142 +2947,6 @@ canvas {
 @media screen and (max-width: 520px) {
 
 
-  .Contact{
-
-    margin-top: 20vw;
-  }
-
-  .container {
-
-    margin-top: 10vw;
-    flex: 0 1 85%;
-    margin: auto;
-    padding: 1vw;
-  }
-
-  .background {
-    padding-top: 5vw;
-    margin-top: 220vw;
-    display: flex;
-    height: 100%;
-    border-top-left-radius: 5vw;
-    border-top-right-radius: 5vw;
-  }
-
-  .project-card {
-    height: 100vw;
-    background: #1A1A1A;
-    padding: 1vw;
-    border-radius: 2vw;
-    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
-    transition: transform 0.3sease, box-shadow 0.3sease;
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 2vw;
-}
-
-.overlayT {
-  margin-top: 2vw;
-  margin-left: 1vw;
-  height: 90vw;
-  width: 70vw;
-  border-radius: 2vw;
-  background-color: #000a2100;
-}
-
-.overlayT video {
-  margin-top: 2vw;
-  height: 50vw;
-  width: 75vw;
-  border-radius: 2vw;
-  background-color: #000A21;
-}
-
-.overlayU  {
-  margin-top: 2vw;
-  height: 50vw;
-  width: 10vw;
-  border-radius: 2vw;
-  background-color: #8d1d2800;
-}
-
-.overlayU video {
-  margin-top: 2vw;
-  height: 50vw;
-  width: 75vw;
-  border-radius: 2vw;
-  background-color: #8D1D29;
-}
-
-.overlayV  {
-
-  background-color: #f3f5e500;
-}
-
-.overlayV video {
-  margin-top: 2vw;
-  height: 50vw;
-  width: 75vw;
-  border-radius: 2vw;
-  background-color: #F3F5E5;
-}
-
-
-
-.tech-stack1 span,
-.tech-stack2 span {
-    font-size: 3.5vw;
-    border-radius: 2vw;
-}
-  .github-btn1,.github-btn2{
-    font-size: 3.5vw;
-    border-radius: 2vw;
-  }
-
-  .live-btn1,.live-btn2{
-    font-size: 3.5vw;
-    border-radius: 2vw;
-  }
-
-  .screen-body {
- 
-    flex-direction: column;
-  }
-
-  .screen-body-item.left {
-    margin-bottom: 30px;
-  }
-
-  .app-title {
-    flex-direction: row;
-  }
-
-  .app-title span {
-    margin-right: 12px;
-  }
-
-  .app-title:after {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .screen-body {
-    padding: 40px;
-  }
-
-  .screen-body-item {
-    padding: 0;
-  }
-}
-
-
-
-
-
-
-@media screen and (max-width: 768px) {
-
   #bento {
     grid-template-columns: 1fr;
     width: 80%;
@@ -3091,7 +2956,7 @@ canvas {
 
   .box {
     grid-column: span 1 !important;
-    height: auto !important;
+    height: auto;
     padding: 6vw;
   }
 
@@ -3204,7 +3069,7 @@ canvas {
 
   .logo-box{
 
-    height: 30vw;
+    height: 40vw;
 
   }
 
@@ -3284,6 +3149,274 @@ canvas {
     margin-top: -2vw;
   }
 
+
+  .Contact{
+    
+    margin-top: 220vw;
+  }
+
+  .container {
+
+    flex: 0 1 85%;
+    padding: 1vw;
+  }
+
+  .screen{
+
+    height: 160vw;
+
+  }
+
+  .app-title {
+    
+    
+    font-size: 15vw;
+   
+  
 }
+
+
+.app-contact a {
+
+  color: white;
+  font-size: 11.5vw;
+  margin-right: 4vw;
+}
+
+.app-contact img{
+  transform-origin: 2vw;
+  transform: scale(1.8);
+  margin-bottom: 2vw;
+  margin-top: -2vw;
+}
+
+.app-form-control {
+
+  padding: 1vw 1vw;
+  margin-top: 10vw;
+  margin-bottom: 0vw;
+  font-size: 5vw;
+
+}
+
+.app-form-button {
+  font-family: 'nin', sans-serif;
+  color: #ea1d6f;
+  font-size: 5.2vw;
+  border-radius: 2vw;
+  background-color: whitesmoke;
+  padding: 1vw;
+  margin-top: 8vw;
+}
+
+  .background {
+    padding-top: 5vw;
+    margin-top: 10vw;
+    display: flex;
+    height: 170vw;
+    border-top-left-radius: 5vw;
+    border-top-right-radius: 5vw;
+  }
+
+  .project-card {
+    height: 95vw;
+    background: #1A1A1A;
+    padding: 1vw;
+    border-radius: 2vw;
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+    transition: transform 0.3 ease, box-shadow 0.3 ease;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 2vw;
+}
+
+.overlayT {
+  margin-top: 2vw;
+  margin-left: 1vw;
+  height: 90vw;
+  width: 70vw;
+  border-radius: 2vw;
+  background-color: #000a2100;
+}
+
+.overlayT video {
+  margin-top: 2vw;
+  height: 50vw;
+  width: 75vw;
+  border-radius: 2vw;
+  background-color: #000A21;
+}
+
+.overlayU  {
+  margin-top: 2vw;
+  height: 50vw;
+  width: 10vw;
+  border-radius: 2vw;
+  background-color: #8d1d2800;
+}
+
+.overlayU video {
+  margin-top: 2vw;
+  height: 50vw;
+  width: 75vw;
+  border-radius: 2vw;
+  background-color: #8D1D29;
+}
+
+.overlayV  {
+
+  background-color: #f3f5e500;
+}
+
+.overlayV video {
+  margin-top: 2vw;
+  height: 50vw;
+  width: 75vw;
+  border-radius: 2vw;
+  background-color: #F3F5E5;
+}
+
+
+.card {
+ 
+  width: 20vw;
+  height: 25vw;
+  
+}
+
+.card-link {
+  font-size: 1.6vw;
+  display: none;
+  text-decoration: none;
+  background: whitesmoke;
+  color:#fa0e40;
+  padding: 1vw 2vw;
+  border-radius: 2vw;
+  transition: all 0.3s ease;
+  margin-top: 0vw;
+  width: 9vw;
+  margin-left: 8vw;
+  cursor: default;
+  z-index: 100000;
+}
+
+
+.card h3{
+  font-size: 4vw;
+  margin-right: -10vw;
+}
+
+.card:hover h3 {
+  display: none;
+}
+
+.card p{
+  font-size: 2vw;
+}
+
+.card:nth-child(1) {
+  left: -25vw;
+  z-index: 10;
+}
+.card:nth-child(1):hover {
+  left: -25vw;
+}
+
+.card:nth-child(2) {
+  left: 0vw;
+  z-index: 10;
+}
+
+.card:nth-child(2):hover {
+  left: 0vw;
+  z-index: 10;
+}
+
+
+.card:nth-child(3) {
+  left:25vw;
+  z-index: 20;
+}
+
+.card:nth-child(3):hover{
+  left:25vw;
+  
+}
+
+
+
+.card:hover {
+  width: 20vw;
+  z-index: 2;
+  left: 0%;
+  background-color: #fa0e40;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 2vw;
+
+}
+
+
+.card i{
+
+  font-size: 10vw;
+  margin-left: -5vw;
+  margin-bottom: 1vw;
+}
+
+.card img{
+    height: 10vw;
+    width: 10vw;
+    margin-left: -5vw;
+}
+
+
+.tech-stack1 span,
+.tech-stack2 span {
+    font-size: 3.5vw;
+    border-radius: 2vw;
+}
+  .github-btn1,.github-btn2{
+    font-size: 3.5vw;
+    border-radius: 2vw;
+  }
+
+  .live-btn1,.live-btn2{
+    font-size: 3.5vw;
+    border-radius: 2vw;
+  }
+
+  .screen-body {
+ 
+    flex-direction: column;
+  }
+
+  .screen-body-item.left {
+    margin-bottom: 2.5vw;
+  }
+
+  .app-title {
+    flex-direction: column;
+  }
+
+  .app-title span {
+    margin-right: 1vw;
+  }
+
+  .app-title:after {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .screen-body {
+    padding: 3vw;
+  }
+
+  .screen-body-item {
+    padding: 0;
+  }
+}
+
+
 
 
