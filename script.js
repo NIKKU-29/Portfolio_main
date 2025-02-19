@@ -252,8 +252,6 @@ if (gameContainer) {
   new SpaceMonsterGame(gameContainer);
   new CursorManager();
 }
-
-// Optimized Particles
 const MIN_PARTICLES = 5;
 const MAX_PARTICLES_DESKTOP = 50;
 const MAX_PARTICLES_MOBILE = 30;
@@ -266,7 +264,16 @@ function getParticleCount() {
   return Math.max(MIN_PARTICLES, Math.min(Math.floor(window.innerWidth / (isMobile ? 30 : 15)), maxParticles));
 }
 
+function destroyParticles() {
+  if (window.pJSDom && window.pJSDom.length) {
+    window.pJSDom.forEach(particle => particle.pJS && particle.pJS.fn.vendors.destroypJS());
+    window.pJSDom = [];
+  }
+}
+
 function initParticles() {
+  destroyParticles(); // Destroy existing instance before creating a new one
+
   particlesJS("particles-js", {
     particles: {
       number: { 
@@ -297,12 +304,6 @@ function initParticles() {
         enable: true, 
         speed: window.innerWidth < MOBILE_BREAKPOINT ? 3 : 5,
         direction: "none" 
-      },
-      life: {
-        duration: {
-          value: PARTICLE_DECAY_DELAY
-        },
-        count: 1
       }
     },
     interactivity: {
@@ -327,6 +328,16 @@ function initParticles() {
     },
   });
 }
+
+// Reinitialize particles on window resize
+window.addEventListener("resize", () => {
+  clearTimeout(window.particleResizeTimeout);
+  window.particleResizeTimeout = setTimeout(initParticles, 500); // Debounce to avoid excessive calls
+});
+
+// Initialize particles on page load
+document.addEventListener("DOMContentLoaded", initParticles);
+
 
 // Initialize
 document.addEventListener("DOMContentLoaded", () => {
