@@ -3405,17 +3405,16 @@ canvas {
   .app-title:after {
     display: none;
   }
-}
 
-@media screen and (max-width: 600px) {
   .screen-body {
-    padding: 3vw;
+    padding: 8vw;
   }
 
   .screen-body-item {
     padding: 0;
   }
 }
+
 
 
 
