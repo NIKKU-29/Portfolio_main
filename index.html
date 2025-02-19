@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll/dist/locomotive-scroll.min.css">
+</head>
+
+<body>
+
+  <div class="video-background">
+    
+    <div id="particles-js"></div> 
+    <div class="count-particles"> <span class="js-count-particles">--</span> particles </div>
+    
+    <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> 
+    <script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
+  </div>
+
+  <div class="page1" id="pg1">
+    <br>
+
+
+    <!-- <div class="cursor"></div> -->
+    <nav class="navbar">
+      <ul class="navbar__menu">
+        <li class="navbar__item">
+          <a href="#pg1" class="navbar__link"><i data-feather="home"></i><span>Home</span></a>
+        </li>
+        <li class="navbar__item">
+          <a href="#pg2" class="navbar__link"><i data-feather="folder"></i><span>Projects</span></a>
+        </li>
+        <li class="navbar__item">
+          <a href="#pg3" class="navbar__link"><i data-feather="help-circle"></i><span>Contact</span></a>
+        </li>
+      </ul>
+    </nav>
+
+
+
+    <div id="bento">
+      <!-- Discount Box with video -->
+      <div class="box discount-box">
+        <h1>What i do?</h1>
+        <div class="intro-text">
+            <p1>Software Developer</p1>
+            <p2>I'm a Full Stack Developer and Engineering student based in India. I specialize in developing robust software solutions and creating responsive web applications.</p2>
+        </div>
+      </div>
+
+      <!-- Font Box with video -->
+      <div class="box font-box">
+        <div class="info">
+          <h2>Hi, I'm </h2>
+          <h1>Nemish Sharma</h1>
+          <div class="button-container">
+
+            <a href="https://github.com/NIKKU-29" class="social-btn" target="_blank">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/nemish-sharma-a31b7821b/" class="social-btn" target="_blank">
+              <i class="fab fa-linkedin"></i>
+            </a>
+
+          </div>
+        </div>
+        <img src="profile.png" alt="">
+      </div>
+
+      <!-- Sign Box with video -->
+      <div class="box sign-box">
+        <div class="Stack">
+          Stack & Technologies
+        </div>
+        <div class="bottom-section">
+
+          <div class="language-btn" data-lang="React.js">
+            <i class="fab fa-react"></i>
+            <span>React.js</span>
+          </div>
+
+
+          <div class="language-btn" data-lang="Node.js">
+            <i class="fab fa-node-js"></i>
+            <span>Node.js</span>
+          </div>
+
+
+
+          <div class="language-btn" data-lang="HTML">
+            <i class="fab fa-html5"></i>
+            <span>HTML</span>
+          </div>
+
+
+
+          <div class="language-btn" data-lang="CSS">
+            <i class="fab fa-css3-alt"></i>
+            <span>CSS</span>
+          </div>
+
+
+          <div class="language-btn" id="jjss" data-lang="JavaScript">
+            <i class="fab fa-js"></i>
+            <span style="font-size: 1.1vw;"> JavaScript</span>
+          </div>
+
+
+          <div class="language-btn" data-lang="SQL">
+            <i class="fas fa-database"></i>
+            <span>SQL</span>
+          </div>
+
+
+          <div class="language-btn" data-lang="MongoDB">
+            <i class="devicon-mongodb-plain"></i>
+            <span>MongoDB</span>
+          </div>
+
+
+          <div class="language-btn" data-lang="C++">
+            <i class="devicon-cplusplus-plain"></i>
+            <span>C++</span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="box phone-box">
+        <div class="pd">
+          <p>My Resume</p>
+        </div>
+        <div class="resume-content">
+          <a href="Nemish_Sharma_Resume_2025_MAIT.pdf" download="Nemish_Resume.pdf" class="download-btn">
+            Download PDF
+          </a>
+          <img src="folder.png" alt="">
+        </div>
+      </div>
+
+
+      <!-- Logo Box with video -->
+      <div class="box logo-box">
+        <div class="box-container">
+          <div class="card-container">
+
+            <div class="card" data-platform="GeeksForGeeks">
+              <div class="card-content">
+                <img src="geeksforgeeks.svg" alt="">
+                <a href="https://www.geeksforgeeks.org/user/nemishsae2x/" target="_blank" class="card-link">View
+                  Profile</a>
+                <h3 style="margin-left: -13.2vw;" id="gg">GFG</h3>
+                <p>Explore my DSA solutions and technical articles</p>
+              </div>
+            </div>
+
+            <div class="card" data-platform="Dev.to">
+              <div class="card-content">
+                <i class="fab fa-dev"></i>
+                <a href="https://dev.to/nemish" target="_blank" class="card-link">View Profile</a>
+                <h3 style="margin-left: -12.8vw;">Dev.to</h3>
+                <p>Read my technical blog posts and tutorials</p>
+              </div>
+            </div>
+
+            <div class="card" data-platform="LeetCode">
+              <div class="card-content">
+                <img src="leetcode.svg" alt="">
+                <a href="https://leetcode.com/u/NIKKU29/" target="_blank" class="card-link">View Profile</a>
+                <h3 style="margin-left: -12.4vw;">LeetCode</h3>
+                <p>Check out my problem-solving skills and competitive programming solutions</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Banner Box with video -->
+      <div class="box banner-box">
+        <div class="education-section">
+          <h2 class="section-title">Education</h2>
+
+          <div class="education-item">
+            <h3 class="institution">Maharaja Agrasen Institute of Technology </h3>
+            <h3 id="d1" style="color: rgb(224, 219, 219); margin-top:-0.4vw"> ( 2021 - 2025 ) </h3>
+            <p class="description">
+              B.Tech in EEE with specialization in AIML.
+              Strong foundation in OOP, DBMS, and core engineering concepts.
+            </p>
+          </div>
+
+          <div class="education-item">
+            <h3 class="institution">Little flowers Public School</h3>
+            <h3 id="d1" style="color:rgb(224, 219, 219); margin-top:-0.4vw"> ( 2008 - 2020 )</h3>
+            <p class="description">
+              Completed senior secondary education in PCM with excellent academics and active co-curricular
+              participation.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="box romo-box">
+        <div id="game-container">
+          <div id="play-button">PLAY</div>
+          <div id="timer">
+            Time Left: 20s</div>
+          <div id="score">Score: 0</div>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+
+  <div class="PROJ" id="pg2">
+
+    <section class="projects">
+      <h1>Projects</h1>
+      <div class="project-grid">
+        <div class="project-card">
+          <div class="project-header">
+            <h2 id="pp1">Study Buddy</h2>
+            <div class="project-links">
+              <a href="https://github.com/NIKKU-29/Study_Buddy" class="github-btn1">GitHub</a>
+              <a href="https://nikku-29.github.io/Study_Buddy/index.html" class="live-btn1">Live</a>
+            </div>
+          </div>
+          <p>Developed a web platform for EEE students, centralizing essential practical exam resources, improving
+            navigation efficiency by 85%.</p>
+          <div class="tech-stack1">
+            <span>React</span>
+            <span>Node.js</span>
+            <span>MongoDB</span>
+            <span>Express</span>
+          </div>
+          <div class="overlayT">
+            <video src="buddy.mp4" autoplay loop muted></video>
+          </div>
+          <div class="hover-glow" style="background: rgba(14, 57, 250, 0.4);"></div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <h2>Vines & Co</h2>
+            <div class="project-links">
+              <a href="https://github.com/NIKKU-29/VinesAndCompany" class="github-btn2">GitHub</a>
+              <a href="https://nikku-29.github.io/VinesAndCompany/" class="live-btn2">Live</a>
+            </div>
+          </div>
+          <p>Designed an elegant wine-themed website, enhancing visual presentation and user experience, reducing
+            navigation time by 45%.</p>
+          <div class="tech-stack2">
+            <span>JavaScript</span>
+            <span>Tailwind CSS</span>
+            <span>Swiper.js</span>
+            <span>Scss</span>
+          </div>
+          <div class="overlayU">
+            <video src="vines.mp4" autoplay loop muted></video>
+          </div>
+          <div class="hover-glow"></div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <h2>AeroXpert</h2>
+            <div class="project-links">
+              <a href="https://github.com/NIKKU-29/FlightReservation" class="github-btn2">GitHub</a>
+           
+            </div>
+          </div>
+          <p>Engineered a flight booking system in C++ with secure NoSQL integration, boosting efficiency and enabling
+            rapid booking.</p>
+          <div class="tech-stack2">
+            <span>C++</span>
+            <span>MongoDB</span>
+            <span>Ninja</span>
+          </div>
+          <div class="overlayV">
+            <video src="Travel Logo.mp4" autoplay loop muted></video>
+          </div>
+          <div class="hover-glow"></div>
+        </div>
+      </div>
+    </section>
+
+
+  </div>
+
+
+
+  <!-- PAGE###############################################333333333333333333333333333333333 -->
+
+  <div class="Contact" id="pg3">
+
+    <div class="background">
+      <div class="container">
+        <div class="screen">
+          <div class="screen-header">
+            <div class="screen-header-left">
+              <div class="screen-header-button close"></div>
+              <div class="screen-header-button maximize"></div>
+              <div class="screen-header-button minimize"></div>
+            </div>
+            <div class="screen-header-right">
+              <div class="screen-header-ellipsis"></div>
+              <div class="screen-header-ellipsis"></div>
+              <div class="screen-header-ellipsis"></div>
+            </div>
+          </div>
+          <div class="screen-body">
+            <div class="screen-body-item left">
+              <div class="app-title">
+                <span>CONTACT</span>
+                <span>ME</span>
+              </div>
+              <div class="app-contact">
+                
+                  <a href="https://github.com/NIKKU-29" target="_blank"><i class="fab fa-github"></i></a>
+                  <a href="https://www.linkedin.com/in/nemish-sharma-a31b7821b/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                  <a href="https://dev.to/nemish" target="_blank"><i class="fab fa-dev"></i></a>
+                  <a href="https://leetcode.com/u/NIKKU29/" target="_blank">
+                    <img src="leetcode.svg" alt="LeetCode" style="width: 24px; height: 24px; vertical-align: middle;">
+                  </a>
+              
+              </div>
+            </div>
+
+            <div class="screen-body-item">
+              <div class="app-form">
+                  <div class="app-form-group">
+                      <input id="name" class="app-form-control" placeholder="NAME">
+                  </div>
+                  <div class="app-form-group">
+                      <input id="email" class="app-form-control" placeholder="EMAIL">
+                  </div>
+                  <div class="app-form-group">
+                      <input id="contact" class="app-form-control" placeholder="CONTACT NO">
+                  </div>
+                  <div class="app-form-group message">
+                      <input id="message" class="app-form-control" placeholder="MESSAGE">
+                  </div>
+                  <div class="app-form-group buttons">
+                      <button class="app-form-button" type="button" id="cancel">CANCEL</button>
+                      <button class="app-form-button" type="button" id="send">SEND</button>
+                  </div>
+              </div>
+          </div>
+          
+            
+            </div>
+          </div>
+        </div>
+       
+      </div>
+    </div>
+    
+
+      <p style="margin-bottom: 2vw; margin-left: 40%; color:white; font-size: 1vw;">&copy; 2025 Nemish Sharma. All rights reserved.</p>
+
+  </div>
+
+
+  <!-- Feather Icons Library -->
+   
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>  
+  <script src="https://unpkg.com/feather-icons"></script>
+  <script src="script.js"></script>
+  <!-- Initialize Feather Icons -->
+  <script>
+    feather.replace();
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @font-face {
+            font-family: 'nin';
+            src: url('dpcomic.ttf') format('truetype');
+        }
+
+        body {
+            
+
+            font-family: 'nin', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #af2747 0%, #fa0e45 100%);
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        h1 {
+
+            margin-top: 2vw;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .emoji {
+            font-size: 4rem;
+            margin: 1rem 0;
+            display: inline-block;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin: 1rem 0;
+            opacity: 0.9;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .button {
+            font-family: 'nin', sans-serif;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            backdrop-filter: blur(5px);
+        }
+
+        .button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            position: relative;
+            transform: scale(0);
+        }
+
+        .success-checkmark .check-icon {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            border-radius: 50%;
+            border: 0.5vw solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+        }
+
+        .success-checkmark .check-icon::before {
+            content: '';
+            width: 30px;
+            height: 15px;
+            border-left: 4px solid white;
+            border-bottom: 4px solid white;
+            transform: rotate(-45deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="success-checkmark">
+            <div class="check-icon"></div>
+        </div>
+        <h1>Thank You!</h1>
+        <span class="emoji">🎉</span>
+        <p>Your response has been submitted successfully.</p>
+        <p>I Would Try to Reach Out ASAP!!!</p>
+        <div class="button-container">
+            <a href="index.html" class="button">Return Home</a>
+         
+        </div>
+    </div>
+
+    <script>
+        // GSAP Animations
+        window.onload = function () {
+            // Main container animation
+            gsap.to(".container", {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: "power4.out"
+            });
+
+            // Checkmark animation
+            gsap.to(".success-checkmark", {
+                scale: 1,
+                duration: 0.5,
+                delay: 0.3,
+                ease: "back.out(1.7)"
+            });
+
+            // Emoji animation
+            gsap.from(".emoji", {
+                scale: 0,
+                rotation: 180,
+                duration: 0.7,
+                delay: 0.5,
+                ease: "back.out(1.7)"
+            });
+
+            // Button container animation
+            gsap.from(".button-container", {
+                y: 20,
+                opacity: 0,
+                duration: 0.5,
+                delay: 0.8,
+                ease: "power2.out"
+            });
+
+            // Continuous floating animation for the emoji
+            gsap.to(".emoji", {
+                y: -10,
+                duration: 1.5,
+                repeat: -1,
+                yoyo: true,
+                ease: "power1.inOut"
+            });
+        }
+    </script>
+</body>
+
+</html>
