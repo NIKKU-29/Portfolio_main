@@ -449,9 +449,18 @@ function showError(fieldId, message) {
   errorDiv.style.cssText = `
       color: #dc3545;
       font-size: 0.8rem;
-      margin-top: 5px;
+      margin-top: 0;
       margin-bottom: 10px;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease-in-out;
   `;
+  // Trigger the animation after a small delay
+  setTimeout(() => {
+      errorDiv.style.opacity = '1';
+      errorDiv.style.marginTop = '5px';
+      errorDiv.style.transform = 'translateY(0)';
+  }, 10);
   errorDiv.textContent = message;
   field.parentNode.insertBefore(errorDiv, field.nextSibling);
   field.style.borderColor = '#dc3545';
