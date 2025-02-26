@@ -278,7 +278,7 @@ function initParticles() {
     particles: {
       number: { 
         value: getParticleCount(), 
-        density: { enable: true } 
+        density: { enable: false} 
       },
       color: { value: "#fa0e45" },
       shape: { type: "circle", stroke: { width: 5, color: "#fa0e45" } },
