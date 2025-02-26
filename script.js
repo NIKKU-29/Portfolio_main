@@ -350,7 +350,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
 document.addEventListener("DOMContentLoaded", function () {
   gsap.registerPlugin(ScrollTrigger);
 
@@ -359,24 +358,26 @@ document.addEventListener("DOMContentLoaded", function () {
       card,
       {
         opacity: 0,
-        y: 100, // Start slightly lower
-        scale: 0.85, // Slightly shrunken
-        rotateX: 15, // Subtle tilt
-        filter: "blur(15px)", // Stronger blur at the start
+        y: 100,
+        scale: 0.85,
+        rotateX: 15,
+        filter: "blur(15px)",
       },
       {
         opacity: 1,
         y: 0,
         scale: 1,
         rotateX: 0,
-        filter: "blur(0px)", // Fully clear
-        duration: 2, // Smoother transition
-        ease: "power2.out", // Smooth start-to-end motion
-        delay: index * 0.2, // Staggered appearance
+        filter: "blur(0px)",
+        duration: 1.5,
+        ease: "power4.out", // Changed to power4 for smoother end
+        delay: index * 0.15,
         scrollTrigger: {
           trigger: card,
           start: "top 85%",
+          end: "top 60%", // Added end point
           toggleActions: "play none none none",
+          scrub: 0.5, // Added smooth scrubbing
         },
       }
     );
