@@ -278,10 +278,10 @@ function initParticles() {
     particles: {
       number: { 
         value: getParticleCount(), 
-        density: { enable: false } 
+        density: { enable: true } 
       },
       color: { value: "#fa0e45" },
-      shape: { type: "circle", stroke: { width: 10, color: "#fa0e45" } },
+      shape: { type: "circle", stroke: { width: 5, color: "#fa0e45" } },
       opacity: { 
         value: 0.5, 
         random: false,
@@ -292,7 +292,7 @@ function initParticles() {
           sync: false
         }
       },
-      size: { value: 2, random: true },
+      size: { value: 1, random: true },
       line_linked: { 
         enable: true, 
         distance: window.innerWidth < MOBILE_BREAKPOINT ? 100 : 150,

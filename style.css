@@ -2320,6 +2320,16 @@ p2 {
   transition: background 0.3s ease;
 }
 
+.github-btn3{
+  background: #048d9f;
+  color: white;
+  padding: 0.5vw 0.5vw;
+  border-radius: 0.5vw;
+  font-size: 1.1vw;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
 .github-btn2, .live-btn2 {
   background: #fa0e40;
   color: white;
@@ -2339,23 +2349,31 @@ p2 {
 .hover-glow {
   position: absolute;
   width: 20vw;
-  height: 30vw;
+  height: 35vw;
   background: rgba(250, 14, 69, 0.4);
   filter: blur(50px);
   border-radius: 5vw;
   pointer-events: none;
+  opacity: 0;
   transform: translate(120%, -20%);
-  transition: transform 0.1s ease;
+  transition: all 0.3s ease-out;
+  z-index: -1;
 }
 
 .project-card:hover .hover-glow {
-  transition: none;
+  opacity: 1;
+  transform: translate(120%, -20%) scale(1.1);
+  transition: all 0.3s ease-in;
 }
 
 /* 🔹 Hover Effects */
+.project-card {
+  transition: all 0.3s ease;
+}
+
 .project-card:hover {
-  box-shadow: 0 4px 20px rgba(255, 15, 147, 0.3);
-  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(175, 163, 163, 0.4);
+  transform: translateY(-8px);
 }
 
 .project-card h2 {
@@ -2374,6 +2392,16 @@ p2 {
   background-clip: text;
   color: transparent;
 }
+
+
+#pp3{
+
+  background: linear-gradient(to right, #048d9f, white, white);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 
 .project-card p {
   font-size: 1.4vw;
@@ -2404,6 +2432,14 @@ p2 {
   color: white;
 }
 
+.tech-stack3 span {
+  background: #048d9f;
+  padding: 0.5vw 0.9vw;
+  border-radius: 1vw;
+  font-size: 1.2vw;
+  color: white;
+
+}
 
 .overlay  img{
 
@@ -2470,6 +2506,24 @@ p2 {
     height: 20vw;
     width: 35vw;
     border-radius: 2vw;
+
+}
+
+.overlayW{
+
+  margin-top: 2vw;
+    margin-left: 1.5vw;
+    height: 20vw;
+    width: 35vw;
+    border-radius: 2vw;
+    background-color: #000A21;
+}
+
+
+.overlayW video{
+  height: 20vw;
+  width: 35vw;
+  border-radius: 2vw;
 
 }
 
