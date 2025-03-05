@@ -144,6 +144,8 @@ body {
   list-style: none;
   position: relative;
   padding: 1vw;
+  margin-left: 0.8vw;
+  padding-right: 0vw;
 }
 
 .navbar__item:last-child:before {
@@ -1720,14 +1722,14 @@ p2 {
 
 .font-box img {
 
-  height: 15vw;
-  width: 17vw;
+  height: 25vw;
+  margin-top: 3vw;
+  width: 15vw;
   object-fit: contain;
-  margin-left: auto;
   display: block;
   transition: transform 0.5s ease-in-out;
   transform: scale(1.2);
-  margin-left: 2vw;
+  margin-left: 0vw;
 
 }
 
@@ -1740,7 +1742,7 @@ p2 {
 .font-box h1 {
 
   line-height: 3.5vw;
-  margin-left: 6vw;
+  margin-left: 2vw;
   width: 100%;
   text-align: left;
   color: whitesmoke;
@@ -1755,7 +1757,7 @@ p2 {
 .font-box h2 {
 
   margin-top: 3.5vw;
-  margin-left: 6vw;
+  margin-left: 2vw;
   width: 100%;
   text-align: left;
   font-size: 1.2vw;
@@ -2126,7 +2128,7 @@ p2 {
   flex-wrap: wrap;
   margin-top: 1vw;
   justify-content: center;
-  width: 100%;
+  width: 65%;
   margin-left: -0.5vw;
 
 }
@@ -2309,6 +2311,112 @@ p2 {
   display: flex;
   gap: 10px;
 }
+
+.experience {
+  font-family: 'nin';
+  color: white;
+  background-color: #0D1117;
+  padding: 2vw;
+  border-radius: 1vw;
+  width: 85%;
+  margin: auto;
+  
+}
+
+.experience h1 {
+  font-size: 5vw;
+  margin-bottom: 3rem;
+  position: relative;
+  display: inline-block;
+  transform: translateZ(50px);
+}
+
+.experience-card {
+  background: #121213;
+  margin: 1.2vw 0;
+  display: flex;
+  margin-bottom: 5vw;
+  flex-direction: row;
+  overflow: hidden;
+  border-radius: 1vw;
+  box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.1);
+}
+
+
+.experience-card:hover {
+  transform: translateY(-0.5vw) scale(1.05);
+  box-shadow: 0 0 20px white, 
+              0 0 40px white;
+  transition: all 0.3s ease;
+}
+
+.EXPRight img{
+  height: 25vw;
+  width: 45vw;
+  border-radius: 1vw;
+  -webkit-mask-image: linear-gradient(to right, transparent, black);
+  mask-image: linear-gradient(to right, transparent, black);
+}
+
+
+.EXPRight img {
+  margin-left: 1vw;
+  transition: all 0.5s ease;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 50%);
+  mask-image: linear-gradient(to right, transparent, black 50%);
+}
+
+.experience-card:hover .EXPRight img {
+  -webkit-mask-image: linear-gradient(to right, black, black);
+  mask-image: linear-gradient(to right, black, black);
+  transform: translateX(10px);
+}
+
+
+#scl{
+  height: 26vw;
+  width: 43vw;
+  
+}
+
+
+.EXPleft{
+  padding-left: 2vw;
+  padding-top: 1vw;
+  padding-right: 1vw;
+  width: 60vw;
+}
+
+h3 {
+  font-size: 2.5vw;
+  margin-bottom: 0.5vw;
+}
+
+.company {
+  font-weight: bold;
+  color: #fa0e40;
+  font-size: 1.5vw;
+  margin-top: 0.5vw;
+}
+
+.date {
+  font-style: italic;
+  color: #C9D1D9;
+  font-size: 1vw;
+  margin-top: -1vw;
+}
+
+ul {
+  padding-left: 1vw;
+  margin-right: 2vw;
+
+}
+
+ul li {
+  line-height: 1.5;
+  font-size: 1.35vw;
+}
+
 
 .github-btn1, .live-btn1 {
   background: #0e59fa;
@@ -2590,7 +2698,7 @@ canvas {
   background-color: #121213;
   overflow:hidden;
   border-right-color: 0.2vw solid #fa0e40;
-  cursor: pointer;
+  
 }
 
 .slide-text {
@@ -2602,7 +2710,7 @@ canvas {
   justify-content: center;
   background: #fffdfd;
   transition: transform 1s ease-in-out;
-  cursor: pointer;
+  
 }
 
 .hidden {

@@ -358,7 +358,7 @@ document.addEventListener("DOMContentLoaded", function () {
       card,
       {
         opacity: 0,
-        y: 100,
+        y: 50,
         scale: 0.85,
         rotateX: 15,
         filter: "blur(15px)",
@@ -536,4 +536,15 @@ document.getElementById("cancel").addEventListener("click", function() {
   }, 0);
 
   document.getElementById("name").focus();
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  const cards = document.querySelectorAll(".experience-card");
+  cards.forEach((card, index) => {
+      setTimeout(() => {
+          card.style.opacity = "1";
+          card.style.transform = "translateY(0)";
+      }, index * 300);
+  });
 });
