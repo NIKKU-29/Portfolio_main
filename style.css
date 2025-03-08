@@ -87,7 +87,7 @@ body {
   background: #0f0f0f;
   border-radius: 1.5vw;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.03);
-  height: 20vw;
+  height: 24vw;
   z-index: 10;
 }
 
@@ -2284,7 +2284,7 @@ p2 {
 
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(30vw, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(26vw, 1fr));
   gap: 1.2vw;
 }
 
@@ -3306,7 +3306,7 @@ canvas {
 
   .navbar {
     width: 6.5vw;
-    height: 32vw;
+    height: 35vw;
     padding-left: 1.1vw;
 }
 
