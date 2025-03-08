@@ -2296,7 +2296,7 @@ p2 {
 }
 
 .project-card {
-  height: 35vw;
+  height: 36vw;
   background: #1A1A1A;
   padding: 1vw;
   border-radius: 1.2vw;
@@ -3138,6 +3138,7 @@ canvas {
 .app-form-button:hover {
   color: #b9134f;
 }
+
 
 
 

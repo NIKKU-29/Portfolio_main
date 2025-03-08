@@ -12,20 +12,23 @@ class SpaceMonsterGame {
       score: 0,
       timeLeft: 20,
       isPlaying: false,
-      activeMonsters: new Set()
+      activeMonsters: new Set(),
+      frameId: null
     };
     this.intervals = {
-      spawn: null,
       timer: null
     };
+    this.lastTime = 0;
+    this.spawnAccumulator = 0;
 
     // Pre-create elements for reuse
     this.createGameElements();
 
     // Bind methods to avoid recreating functions
     this.boundDestroyMonster = this.destroyMonster.bind(this);
+    this.boundGameLoop = this.gameLoop.bind(this);
 
-    // Initial setup
+    // Initial setup: hide timer, show play button, etc.
     this.elements.timer.style.display = 'none';
     this.elements.playButton.addEventListener('click', () => this.openGameWindow());
   }
@@ -35,7 +38,7 @@ class SpaceMonsterGame {
     this.elements.overlay = document.createElement('div');
     this.elements.overlay.style.cssText = `
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.8); z-index: 1000;
+      background: rgba(0, 0, 0, 0.8);
       display: none; justify-content: center; align-items: center;
       z-index: 1000001;
     `;
@@ -46,8 +49,8 @@ class SpaceMonsterGame {
       width: 80vw; height: 80vh; background: #101010;
       position: relative; border-radius: 10px;
       box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      cursor: default; overflow: hidden;
       z-index: 1000001;
-      cursor: default;
     `;
 
     // Create close button
@@ -56,7 +59,8 @@ class SpaceMonsterGame {
     closeButton.style.cssText = `
       position: absolute; top: 0.2vw; right: 0.2vw;
       background: none; border: none; color: white;
-      font-size: 2.2vw; cursor: pointer; z-index: 1000001;
+      font-size: 2.2vw; cursor: pointer;
+      z-index: 1000002;
     `;
     closeButton.addEventListener('click', () => this.closeGameWindow());
 
@@ -67,36 +71,87 @@ class SpaceMonsterGame {
   }
 
   openGameWindow() {
+    // Remove any lingering modal before starting a new game
+    const existingModal = this.elements.gameWindow.querySelector('.game-over-modal');
+    if (existingModal) existingModal.remove();
+
     this.elements.overlay.style.display = 'flex';
     this.startGame();
   }
 
   closeGameWindow() {
-    this.endGame();
+    // End game without showing modal (pass false)
+    this.endGame(false);
     this.elements.overlay.style.display = 'none';
-    this.container.append(this.elements.score, this.elements.timer);
+
+    // Move score and timer back to the original container
+    this.container.appendChild(this.elements.score);
+    this.container.appendChild(this.elements.timer);
+
+    // Hide score and timer; show play button
+    this.elements.score.style.display = 'none';
+    this.elements.timer.style.display = 'none';
+    this.elements.playButton.style.display = 'block';
+
+    // Fully reset game state
+    this.resetGame();
   }
 
   startGame() {
     if (this.state.isPlaying) return;
 
     this.state.isPlaying = true;
+    this.state.score = 0;
+    this.state.timeLeft = 20;
+
+    // Hide play button, show score & timer in the game window
     this.elements.playButton.style.display = 'none';
     this.elements.score.style.display = 'block';
     this.elements.timer.style.display = 'block';
-    this.elements.gameWindow.appendChild(this.elements.score);
-    this.elements.gameWindow.appendChild(this.elements.timer);
+
+    // Ensure score and timer are inside gameWindow
+    if (!this.elements.gameWindow.contains(this.elements.score)) {
+      this.elements.gameWindow.appendChild(this.elements.score);
+    }
+    if (!this.elements.gameWindow.contains(this.elements.timer)) {
+      this.elements.gameWindow.appendChild(this.elements.timer);
+    }
+
+    this.elements.score.textContent = `Score: ${this.state.score}`;
+    this.elements.timer.textContent = `Time Left: ${this.state.timeLeft}s`;
 
     this.startTimer();
-    this.intervals.spawn = setInterval(() => this.spawnMonsters(), 1000);
+    this.lastTime = performance.now();
+    this.state.frameId = requestAnimationFrame(this.boundGameLoop);
+  }
+
+  gameLoop(timestamp) {
+    if (!this.state.isPlaying) return;
+    
+    const deltaTime = timestamp - this.lastTime;
+    this.lastTime = timestamp;
+    
+    // Accumulate time to spawn monsters every 1 second
+    this.spawnAccumulator += deltaTime;
+    if (this.spawnAccumulator >= 1000) {
+      this.spawnMonsters();
+      this.spawnAccumulator -= 1000;
+    }
+    
+    // Continue game loop
+    this.state.frameId = requestAnimationFrame(this.boundGameLoop);
   }
 
   startTimer() {
+    this.state.timeLeft = 20;
+    this.elements.timer.textContent = `Time Left: ${this.state.timeLeft}s`;
+    
+    clearInterval(this.intervals.timer);
     this.intervals.timer = setInterval(() => {
       this.state.timeLeft--;
       this.elements.timer.textContent = `Time Left: ${this.state.timeLeft}s`;
       if (this.state.timeLeft <= 0) {
-        this.endGame();
+        this.endGame(); // default shows modal
       }
     }, 1000);
   }
@@ -109,12 +164,19 @@ class SpaceMonsterGame {
     for (let i = 0; i < count; i++) {
       const monster = document.createElement('div');
       monster.classList.add('monster');
-      monster.style.left = `${Math.random() * (rect.width - 50)}px`;
-      monster.style.top = `${Math.random() * (rect.height - 50)}px`;
+      
+      // Use transform for positioning (better performance than left/top)
+      const x = Math.random() * (rect.width - 50);
+      const y = Math.random() * (rect.height - 50);
+      monster.style.transform = `translate(${x}px, ${y}px)`;
+      monster.style.position = 'absolute';
+      monster.style.willChange = 'transform';
+      
       monster.addEventListener('click', this.boundDestroyMonster);
       fragment.appendChild(monster);
 
       this.state.activeMonsters.add(monster);
+      // Remove monster after 3 seconds if not clicked
       setTimeout(() => {
         if (monster.parentElement) {
           monster.remove();
@@ -132,15 +194,34 @@ class SpaceMonsterGame {
 
     const explosion = document.createElement('div');
     explosion.classList.add('explosion');
-    explosion.style.left = `${monster.offsetLeft - 25}px`;
-    explosion.style.top = `${monster.offsetTop - 25}px`;
+    
+    // Extract transform values for accurate explosion positioning
+    const computedStyle = window.getComputedStyle(monster).transform;
+    let x = 0, y = 0;
+    if (computedStyle && computedStyle !== 'none') {
+      const matrixValues = computedStyle.match(/matrix.*\((.+)\)/)[1].split(', ');
+      x = parseFloat(matrixValues[4]);
+      y = parseFloat(matrixValues[5]);
+    }
+    
+    explosion.style.transform = `translate(${x - 25}px, ${y - 25}px)`;
+    explosion.style.position = 'absolute';
+    explosion.style.willChange = 'opacity';
+    
     this.elements.gameWindow.appendChild(explosion);
 
     monster.remove();
     this.state.activeMonsters.delete(monster);
     this.incrementScore();
 
-    setTimeout(() => explosion.remove(), 500);
+    // Animate explosion and remove after finish
+    explosion.animate(
+      [
+        { opacity: 1, transform: `translate(${x - 25}px, ${y - 25}px) scale(0.8)` },
+        { opacity: 0, transform: `translate(${x - 25}px, ${y - 25}px) scale(1.2)` }
+      ],
+      { duration: 500, easing: 'ease-out' }
+    ).onfinish = () => explosion.remove();
   }
 
   incrementScore() {
@@ -148,33 +229,95 @@ class SpaceMonsterGame {
     this.elements.score.textContent = `Score: ${this.state.score}`;
   }
 
-  endGame() {
+  /**
+   * Ends the game.
+   * @param {boolean} [showModal=true] - If true, display the Game Over modal.
+   */
+  endGame(showModal = true) {
     if (!this.state.isPlaying) return;
 
     this.state.isPlaying = false;
-    clearInterval(this.intervals.spawn);
     clearInterval(this.intervals.timer);
+    if (this.state.frameId) {
+      cancelAnimationFrame(this.state.frameId);
+      this.state.frameId = null;
+    }
 
-    // Clean up remaining monsters
+    // Remove any remaining monsters
     this.state.activeMonsters.forEach(monster => monster.remove());
     this.state.activeMonsters.clear();
 
-    alert(`Game Over! Final Score: ${this.state.score}`);
-    this.resetGame();
+    if (showModal) {
+      this.showGameOverModal();
+    }
+  }
+  
+  showGameOverModal() {
+    const modal = document.createElement('div');
+    modal.classList.add('game-over-modal');
+    modal.style.cssText = `
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.9);
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+      color: white;
+      z-index: 1000002;
+    `;
+    
+    const title = document.createElement('h2');
+    title.textContent = 'Game Over!';
+    
+    const scoreText = document.createElement('p');
+    scoreText.textContent = `Final Score: ${this.state.score}`;
+    
+    const button = document.createElement('button');
+    button.textContent = 'Play Again';
+    button.style.cssText = `
+      background: #fa0e45;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      margin-top: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    `;
+    
+    button.addEventListener('click', () => {
+      modal.remove();
+      this.resetGame();
+      this.startGame();
+    });
+    
+    modal.appendChild(title);
+    modal.appendChild(scoreText);
+    modal.appendChild(button);
+    
+    this.elements.gameWindow.appendChild(modal);
   }
 
   resetGame() {
+    // Remove existing modal if any
+    const existingModal = this.elements.gameWindow.querySelector('.game-over-modal');
+    if (existingModal) existingModal.remove();
+    
     this.state.score = 0;
     this.state.timeLeft = 20;
     this.elements.score.textContent = `Score: ${this.state.score}`;
-    this.elements.timer.textContent = `Time Left: 20s`;
+    this.elements.timer.textContent = `Time Left: ${this.state.timeLeft}s`;
+    
+    // Hide score and timer; show play button
     this.elements.score.style.display = 'none';
     this.elements.timer.style.display = 'none';
     this.elements.playButton.style.display = 'block';
   }
 }
 
-// Optimize cursor handling with throttling and a single instance
+
+// Optimize cursor handling with RAF instead of throttling
 class CursorManager {
   constructor() {
     this.cursor = document.createElement('div');
@@ -238,7 +381,6 @@ class CursorManager {
       this.cursor.classList.remove('link-hover');
     }
   }
-
   setupEventListeners() {
     document.addEventListener('mousemove', this.boundMouseMove);
     document.addEventListener('mouseover', this.boundMouseOver);
@@ -246,22 +388,18 @@ class CursorManager {
   }
 }
 
-// Initialize
-const gameContainer = document.getElementById('game-container');
-if (gameContainer) {
-  new SpaceMonsterGame(gameContainer);
-  new CursorManager();
-}
+
+
+// Optimize particle system for performance
 const MIN_PARTICLES = 5;
-const MAX_PARTICLES_DESKTOP = 50;
-const MAX_PARTICLES_MOBILE = 30;
+const MAX_PARTICLES_DESKTOP = 30; // Reduced from 50
+const MAX_PARTICLES_MOBILE = 15; // Reduced from 30
 const MOBILE_BREAKPOINT = 768;
-const PARTICLE_DECAY_DELAY = 2000; // Time in ms before particles start disappearing
 
 function getParticleCount() {
   const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
   const maxParticles = isMobile ? MAX_PARTICLES_MOBILE : MAX_PARTICLES_DESKTOP;
-  return Math.max(MIN_PARTICLES, Math.min(Math.floor(window.innerWidth / (isMobile ? 30 : 15)), maxParticles));
+  return Math.max(MIN_PARTICLES, Math.min(Math.floor(window.innerWidth / (isMobile ? 50 : 30)), maxParticles));
 }
 
 function destroyParticles() {
@@ -273,21 +411,24 @@ function destroyParticles() {
 
 function initParticles() {
   destroyParticles(); // Destroy existing instance before creating a new one
-
+  
+  // Check if we're on a high-performance device
+  const isHighPerformance = window.navigator.hardwareConcurrency > 4;
+  
   particlesJS("particles-js", {
     particles: {
       number: { 
-        value: getParticleCount(), 
+        value: isHighPerformance ? getParticleCount() : Math.floor(getParticleCount() / 2), 
         density: { enable: false} 
       },
       color: { value: "#fa0e45" },
-      shape: { type: "circle", stroke: { width: 5, color: "#fa0e45" } },
+      shape: { type: "circle", stroke: { width: 2, color: "#fa0e45" } }, // Reduced stroke width
       opacity: { 
-        value: 0.5, 
+        value: 0.3, // Reduced opacity
         random: false,
         anim: {
           enable: true,
-          speed: 1,
+          speed: 0.5, // Reduced animation speed
           opacity_min: 0,
           sync: false
         }
@@ -295,113 +436,97 @@ function initParticles() {
       size: { value: 1, random: true },
       line_linked: { 
         enable: true, 
-        distance: window.innerWidth < MOBILE_BREAKPOINT ? 100 : 150,
+        distance: window.innerWidth < MOBILE_BREAKPOINT ? 80 : 120, // Reduced distance
         color: "#fa0e45", 
-        opacity: 0.4, 
-        width: window.innerWidth < MOBILE_BREAKPOINT ? 2 : 4 
+        opacity: 0.2, // Reduced opacity
+        width: window.innerWidth < MOBILE_BREAKPOINT ? 1 : 2 // Reduced width
       },
       move: { 
         enable: true, 
-        speed: window.innerWidth < MOBILE_BREAKPOINT ? 3 : 5,
-        direction: "none" 
+        speed: window.innerWidth < MOBILE_BREAKPOINT ? 1.5 : 2.5, // Slower movement
+        direction: "none",
+        out_mode: "out" // Particles leave the canvas instead of bouncing
       }
     },
     interactivity: {
       detect_on: "canvas",
       events: { 
-        onhover: { enable: true, mode: "repulse" }, 
+        onhover: { enable: isHighPerformance, mode: "repulse" }, // Disable on low-end devices
         onclick: { 
-          enable: true, 
+          enable: isHighPerformance, 
           mode: "push",
-          count: 0 // Limit particles created per click
-        } 
+          count: 0
+        },
+        resize: true
       },
       modes: { 
         repulse: { 
-          distance: window.innerWidth < MOBILE_BREAKPOINT ? 100 : 200,
-          duration: 0.4 
+          distance: window.innerWidth < MOBILE_BREAKPOINT ? 80 : 150, // Reduced distance
+          duration: 0.2 // Reduced duration
         },
         push: {
           particles_nb: 1
         }
       },
     },
+    retina_detect: false // Disable retina detection for better performance
   });
 }
 
-// Reinitialize particles on window resize
+// Use a more efficient resize handler with debounce
+let resizeTimeout;
 window.addEventListener("resize", () => {
-  clearTimeout(window.particleResizeTimeout);
-  window.particleResizeTimeout = setTimeout(initParticles, 500); // Debounce to avoid excessive calls
-});
-
-// Initialize particles on page load
-document.addEventListener("DOMContentLoaded", initParticles);
-
-
-// Initialize
-document.addEventListener("DOMContentLoaded", () => {
-  const gameContainer = document.getElementById("game-container");
-  if (gameContainer) {
-    new CursorManager();
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
     initParticles();
+  }, 500);
+}, { passive: true });
+
+// Lazy load GSAP animations
+function initGSAPAnimations() {
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+    // Wait and try again if GSAP isn't loaded yet
+    setTimeout(initGSAPAnimations, 100);
+    return;
   }
-});
 
-
-
-document.addEventListener("DOMContentLoaded", function () {
   gsap.registerPlugin(ScrollTrigger);
 
-  gsap.utils.toArray(".project-card").forEach((card, index) => {
-    gsap.fromTo(
-      card,
-      {
-        opacity: 0,
-        y: 50,
-        scale: 0.85,
-        rotateX: 15,
-        filter: "blur(15px)",
-      },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        rotateX: 0,
-        filter: "blur(0px)",
-        duration: 1.5,
-        ease: "power4.out", // Changed to power4 for smoother end
-        delay: index * 0.15,
-        scrollTrigger: {
-          trigger: card,
-          start: "top 85%",
-          end: "top 60%", // Added end point
-          toggleActions: "play none none none",
-          scrub: 0.5, // Added smooth scrubbing
+  const projectCards = document.querySelectorAll(".project-card");
+  // Only initialize animations if elements exist
+  if (projectCards.length > 0) {
+    // Use batch for better performance
+    gsap.utils.toArray(".project-card").forEach((card, index) => {
+      gsap.fromTo(
+        card,
+        {
+          opacity: 0,
+          y: 30, // Reduced distance
+          scale: 0.95, // Less extreme scale
+          rotateX: 5, // Less extreme rotation
+          filter: "blur(5px)" // Less extreme blur
         },
-      }
-    );
-  });
-});
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          rotateX: 0,
+          filter: "blur(0px)",
+          duration: 0.8, // Faster animation
+          ease: "power2.out", // Simpler easing
+          delay: index * 0.1, // Shorter delay
+          scrollTrigger: {
+            trigger: card,
+            start: "top 85%", 
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    });
+  }
+}
 
-
-document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll('.navbar__link').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          const targetId = this.getAttribute('href').substring(1);
-          const targetElement = document.getElementById(targetId);
-
-          if (targetElement) {
-              targetElement.scrollIntoView({
-                  behavior: 'smooth',
-                  block: 'start'
-              });
-          }
-      });
-  });
-});
-
+// Optimize form validation
 function validateForm() {
   const name = document.getElementById("name").value.trim();
   const email = document.getElementById("email").value.trim();
@@ -414,26 +539,26 @@ function validateForm() {
   let isValid = true;
   
   if (!name) {
-      showError("name", "Name is required");
-      isValid = false;
+    showError("name", "Name is required");
+    isValid = false;
   }
 
   if (!email) {
-      showError("email", "Email is required");
-      isValid = false;
+    showError("email", "Email is required");
+    isValid = false;
   } else if (!isValidEmail(email)) {
-      showError("email", "Please enter a valid email");
-      isValid = false;
+    showError("email", "Please enter a valid email");
+    isValid = false;
   }
 
   if (!contact) {
-      showError("contact", "Contact number is required");
-      isValid = false;
+    showError("contact", "Contact number is required");
+    isValid = false;
   }
 
   if (!message) {
-      showError("message", "Message is required");
-      isValid = false;
+    showError("message", "Message is required");
+    isValid = false;
   }
 
   return isValid;
@@ -445,106 +570,227 @@ function isValidEmail(email) {
 
 function showError(fieldId, message) {
   const field = document.getElementById(fieldId);
+  if (!field) return;
+  
   const errorDiv = document.createElement('div');
   errorDiv.className = 'error-message';
-  errorDiv.style.cssText = `
-      color: #dc3545;
-      font-size: 0.8rem;
-      margin-top: 0;
-      margin-bottom: 10px;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: all 0.3s ease-in-out;
-  `;
-  // Trigger the animation after a small delay
-  setTimeout(() => {
-      errorDiv.style.opacity = '1';
-      errorDiv.style.marginTop = '5px';
-      errorDiv.style.transform = 'translateY(0)';
-  }, 10);
   errorDiv.textContent = message;
+  
+  // Apply styles directly instead of CSS transitions
+  errorDiv.style.cssText = `
+    color: #dc3545;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    opacity: 0;
+  `;
+  
   field.parentNode.insertBefore(errorDiv, field.nextSibling);
   field.style.borderColor = '#dc3545';
-
-  field.addEventListener('input', function() {
+  
+  // Use requestAnimationFrame for smoother animation
+  requestAnimationFrame(() => {
+    errorDiv.style.opacity = '1';
+    errorDiv.style.transition = 'opacity 0.3s ease';
+  });
+  
+  // Use a single event listener for better performance
+  if (!field.hasErrorListener) {
+    field.addEventListener('input', function() {
       this.style.borderColor = '';
       const error = this.parentNode.querySelector('.error-message');
       if (error) {
-          error.remove();
+        error.remove();
       }
-  });
+    });
+    field.hasErrorListener = true;
+  }
 }
 
-document.getElementById("send").addEventListener("click", function(e) {
-  e.preventDefault();
-
-  if (!validateForm()) {
-      return;
+// Initialize everything with proper timing
+document.addEventListener("DOMContentLoaded", () => {
+  // Initialize base functionality first
+  const gameContainer = document.getElementById("game-container");
+  if (gameContainer) {
+    new SpaceMonsterGame(gameContainer);
+    new CursorManager();
   }
-
-  let formData = new FormData();
-
-  formData.append("entry.998938801", document.getElementById("name").value.trim());
-  formData.append("entry.1842017898", document.getElementById("email").value.trim());
-  formData.append("entry.643032720", document.getElementById("contact").value.trim());
-  formData.append("entry.1515541772", document.getElementById("message").value.trim());
-
-  fetch("https://docs.google.com/forms/u/0/d/e/1FAIpQLSdJs9aRajaxhoKkOX6QAbV8m9_Qcbx_OfcU_Q7TfRxGUQS0FQ/formResponse", {
-      method: "POST",
-      mode: "no-cors",
-      body: formData
-  }).then(() => {
-      window.location.href = "thankyou.html";
-  }).catch(error => console.error("❌ Error!", error));
-});
-
-document.getElementById("cancel").addEventListener("click", function() {
-  document.getElementById("name").value = "";
-  document.getElementById("email").value = "";
-  document.getElementById("contact").value = "";
-  document.getElementById("message").value = "";
-
-  const errorMessages = document.querySelectorAll('.error-message');
-  errorMessages.forEach(error => error.remove());
   
-  const formFields = document.querySelectorAll('input, textarea');
-  formFields.forEach(field => field.style.borderColor = '');
+  // Initialize smooth scroll
+  document.querySelectorAll('.navbar__link').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href').substring(1);
+      const targetElement = document.getElementById(targetId);
 
-  const feedbackMsg = document.createElement("div");
-  feedbackMsg.textContent = "Form has been reset";
-  feedbackMsg.style.cssText = `
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: #fa0e40;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-  `;
-  document.body.appendChild(feedbackMsg);
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+  
+  // Initialize form event listeners
+  const sendButton = document.getElementById("send");
+  if (sendButton) {
+    sendButton.addEventListener("click", function(e) {
+      e.preventDefault();
 
-  setTimeout(() => {
-      feedbackMsg.style.opacity = "1";
-      setTimeout(() => {
+      if (!validateForm()) {
+        return;
+      }
+
+      let formData = new FormData();
+
+      formData.append("entry.998938801", document.getElementById("name").value.trim());
+      formData.append("entry.1842017898", document.getElementById("email").value.trim());
+      formData.append("entry.643032720", document.getElementById("contact").value.trim());
+      formData.append("entry.1515541772", document.getElementById("message").value.trim());
+
+      fetch("https://docs.google.com/forms/u/0/d/e/1FAIpQLSdJs9aRajaxhoKkOX6QAbV8m9_Qcbx_OfcU_Q7TfRxGUQS0FQ/formResponse", {
+        method: "POST",
+        mode: "no-cors",
+        body: formData
+      }).then(() => {
+        window.location.href = "thankyou.html";
+      }).catch(error => console.error("❌ Error!", error));
+    });
+  }
+  
+  const cancelButton = document.getElementById("cancel");
+  if (cancelButton) {
+    cancelButton.addEventListener("click", function() {
+      document.getElementById("name").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("contact").value = "";
+      document.getElementById("message").value = "";
+
+      const errorMessages = document.querySelectorAll('.error-message');
+      errorMessages.forEach(error => error.remove());
+      
+      const formFields = document.querySelectorAll('input, textarea');
+      formFields.forEach(field => field.style.borderColor = '');
+
+      const feedbackMsg = document.createElement("div");
+      feedbackMsg.textContent = "Form has been reset";
+      feedbackMsg.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #fa0e40;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        transform: translateZ(0);
+      `;
+      document.body.appendChild(feedbackMsg);
+
+      requestAnimationFrame(() => {
+        feedbackMsg.style.opacity = "1";
+        setTimeout(() => {
           feedbackMsg.style.opacity = "0";
           setTimeout(() => {
-              feedbackMsg.remove();
+            feedbackMsg.remove();
           }, 300);
-      }, 2000);
-  }, 0);
+        }, 2000);
+      });
 
-  document.getElementById("name").focus();
+      document.getElementById("name").focus();
+    });
+  }
+  
+  // Initialize experience cards animation
+  const cards = document.querySelectorAll(".experience-card");
+  if (cards.length > 0) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+          }, index * 150); // Faster animation
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    cards.forEach(card => observer.observe(card));
+  }
+  
+  // Delay particle initialization for better page load performance
+  setTimeout(() => {
+    initParticles();
+  }, 500);
+  
+  // Delay GSAP initialization
+  setTimeout(() => {
+    initGSAPAnimations();
+  }, 1000);
 });
 
+// Add CSS to optimize the cursor
+document.addEventListener("DOMContentLoaded", () => {
+  const style = document.createElement('style');
+  style.textContent = `
+    .cursor {
+      pointer-events: none;
+      will-change: transform;
+      transform: translate3d(0, 0, 0);
+    }
+    .monster {
+      will-change: transform;
+      transform: translate3d(0, 0, 0);
+    }
+    .explosion {
+      will-change: transform, opacity;
+      transform: translate3d(0, 0, 0);
+    }
+  `;
+  document.head.appendChild(style);
+});
 
-document.addEventListener("DOMContentLoaded", function() {
-  const cards = document.querySelectorAll(".experience-card");
-  cards.forEach((card, index) => {
-      setTimeout(() => {
-          card.style.opacity = "1";
-          card.style.transform = "translateY(0)";
-      }, index * 300);
-  });
+// Add ability to disable particle effects for low-end devices
+document.addEventListener("DOMContentLoaded", () => {
+  // Check if we're on a low-performance device
+  const isLowPerformance = 
+    window.navigator.hardwareConcurrency <= 2 || 
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  
+  if (isLowPerformance) {
+    // Create a toggle button for particles
+    const toggleBtn = document.createElement('button');
+    toggleBtn.textContent = 'Disable Effects';
+    toggleBtn.style.cssText = `
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      z-index: 9999;
+    `;
+    
+    let effectsEnabled = true;
+    
+    toggleBtn.addEventListener('click', () => {
+      effectsEnabled = !effectsEnabled;
+      
+      if (effectsEnabled) {
+        initParticles();
+        toggleBtn.textContent = 'Disable Effects';
+      } else {
+        destroyParticles();
+        toggleBtn.textContent = 'Enable Effects';
+      }
+    });
+    
+    document.body.appendChild(toggleBtn);
+  }
 });
