@@ -767,16 +767,17 @@ document.addEventListener("DOMContentLoaded", () => {
     toggleBtn.textContent = 'Disable Effects';
     toggleBtn.style.cssText = `
       position: fixed;
-      bottom: 10px;
-      right: 10px;
+      bottom: 1vw;
+      right: 1vw;
       background-color: #fa0e40;
       color: white;
       border: none;
-      padding: 5px 10px;
+      padding: 0.5vw 0.9vw;
       border-radius: 5px;
-      font-size: 12px;
+      font-size: 2vw;
       z-index: 9999;
       font-family: 'nin';
+      cursor: pointer;
     `;
     
     let effectsEnabled = true;
