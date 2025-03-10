@@ -391,9 +391,9 @@ class CursorManager {
 
 
 // Optimize particle system for performance
-const MIN_PARTICLES = 5;
-const MAX_PARTICLES_DESKTOP = 30; // Reduced from 50
-const MAX_PARTICLES_MOBILE = 15; // Reduced from 30
+const MIN_PARTICLES = 10;
+const MAX_PARTICLES_DESKTOP = 40; // Reduced from 50
+const MAX_PARTICLES_MOBILE = 25;// Reduced from 30
 const MOBILE_BREAKPOINT = 768;
 
 function getParticleCount() {
