@@ -774,7 +774,7 @@ document.addEventListener("DOMContentLoaded", () => {
       border: none;
       padding: 0.5vw 0.9vw;
       border-radius: 5px;
-      font-size: 2vw;
+      font-size: 1vw;
       z-index: 9999;
       font-family: 'nin';
       cursor: pointer;

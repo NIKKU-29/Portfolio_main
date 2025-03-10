@@ -1643,8 +1643,8 @@ body {
   grid-template-rows: repeat(2, auto);
   grid-gap: 2vw;
   padding: 0vw;
-  width: 85%;
-  margin-left: 8vw;
+  width: 84%;
+  margin-left: 9.5vw;
   border-radius: 1.5vw;
   transition: all 0.6s ease;
   margin-top: 1.5vw;
@@ -2275,7 +2275,7 @@ p2 {
 
 .PROJ {
   width: 85%;
-  margin-left: 6vw;
+  margin-left: 9vw;
   padding: 2vw;
   margin-bottom: 10vw;
 }
@@ -2350,8 +2350,7 @@ p2 {
   padding: 2vw;
   border-radius: 1vw;
   width: 85%;
-  margin: auto;
-  
+  margin: 9vw;
 }
 
 .experience h1 {
@@ -2947,6 +2946,7 @@ canvas {
   margin-top: 2vw;
   display: flex;
   height: 46vw;
+
 }
 
 .container {
