@@ -686,6 +686,7 @@ document.addEventListener("DOMContentLoaded", () => {
         opacity: 0;
         transition: opacity 0.3s ease;
         transform: translateZ(0);
+        font-family: 'nin';
       `;
       document.body.appendChild(feedbackMsg);
 
@@ -768,13 +769,14 @@ document.addEventListener("DOMContentLoaded", () => {
       position: fixed;
       bottom: 10px;
       right: 10px;
-      background: rgba(0, 0, 0, 0.5);
+      background-color: #fa0e40;
       color: white;
       border: none;
       padding: 5px 10px;
       border-radius: 5px;
       font-size: 12px;
       z-index: 9999;
+      font-family: 'nin';
     `;
     
     let effectsEnabled = true;
