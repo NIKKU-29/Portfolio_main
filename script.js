@@ -391,15 +391,15 @@ class CursorManager {
 
 
 // Optimize particle system for performance
-const MIN_PARTICLES = 10;
-const MAX_PARTICLES_DESKTOP = 40; // Reduced from 50
-const MAX_PARTICLES_MOBILE = 25;// Reduced from 30
+const MIN_PARTICLES = 15; // Increased from 10
+const MAX_PARTICLES_DESKTOP = 60; // Increased from 40
+const MAX_PARTICLES_MOBILE = 30; // Increased from 25
 const MOBILE_BREAKPOINT = 768;
 
 function getParticleCount() {
   const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
   const maxParticles = isMobile ? MAX_PARTICLES_MOBILE : MAX_PARTICLES_DESKTOP;
-  return Math.max(MIN_PARTICLES, Math.min(Math.floor(window.innerWidth / (isMobile ? 50 : 30)), maxParticles));
+  return Math.max(MIN_PARTICLES, Math.min(Math.floor(window.innerWidth / (isMobile ? 45 : 25)), maxParticles));
 }
 
 function destroyParticles() {
@@ -418,17 +418,17 @@ function initParticles() {
   particlesJS("particles-js", {
     particles: {
       number: { 
-        value: isHighPerformance ? getParticleCount() : Math.floor(getParticleCount() / 2), 
+        value: isHighPerformance ? getParticleCount() : Math.floor(getParticleCount() / 1.5), // Increased density
         density: { enable: false} 
       },
       color: { value: "#fa0e45" },
-      shape: { type: "circle", stroke: { width: 2, color: "#fa0e45" } }, // Reduced stroke width
+      shape: { type: "circle", stroke: { width: 2, color: "#fa0e45" } },
       opacity: { 
-        value: 0.3, // Reduced opacity
+        value: 0.3,
         random: false,
         anim: {
           enable: true,
-          speed: 0.5, // Reduced animation speed
+          speed: 0.5,
           opacity_min: 0,
           sync: false
         }
@@ -436,40 +436,40 @@ function initParticles() {
       size: { value: 1, random: true },
       line_linked: { 
         enable: true, 
-        distance: window.innerWidth < MOBILE_BREAKPOINT ? 80 : 120, // Reduced distance
+        distance: window.innerWidth < MOBILE_BREAKPOINT ? 100 : 150, // Increased distance
         color: "#fa0e45", 
-        opacity: 0.2, // Reduced opacity
-        width: window.innerWidth < MOBILE_BREAKPOINT ? 1 : 2 // Reduced width
+        opacity: 0.2,
+        width: window.innerWidth < MOBILE_BREAKPOINT ? 1 : 2
       },
       move: { 
         enable: true, 
-        speed: window.innerWidth < MOBILE_BREAKPOINT ? 1.5 : 2.5, // Slower movement
+        speed: window.innerWidth < MOBILE_BREAKPOINT ? 1.5 : 2.5,
         direction: "none",
-        out_mode: "out" // Particles leave the canvas instead of bouncing
+        out_mode: "out"
       }
     },
     interactivity: {
       detect_on: "canvas",
       events: { 
-        onhover: { enable: isHighPerformance, mode: "repulse" }, // Disable on low-end devices
+        onhover: { enable: isHighPerformance, mode: "repulse" },
         onclick: { 
           enable: isHighPerformance, 
           mode: "push",
-          count: 0
+          count: 2 // Increased from 0
         },
         resize: true
       },
       modes: { 
         repulse: { 
-          distance: window.innerWidth < MOBILE_BREAKPOINT ? 80 : 150, // Reduced distance
-          duration: 0.2 // Reduced duration
+          distance: window.innerWidth < MOBILE_BREAKPOINT ? 100 : 180, // Increased distance
+          duration: 0.2
         },
         push: {
-          particles_nb: 1
+          particles_nb: 2 // Increased from 1
         }
       },
     },
-    retina_detect: false // Disable retina detection for better performance
+    retina_detect: false
   });
 }
 
@@ -774,7 +774,7 @@ document.addEventListener("DOMContentLoaded", () => {
       border: none;
       padding: 0.5vw 0.9vw;
       border-radius: 5px;
-      font-size: 1vw;
+      font-size: 0.8vw;
       z-index: 9999;
       font-family: 'nin';
       cursor: pointer;
