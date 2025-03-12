@@ -1635,7 +1635,6 @@ body {
 
 
 #bento {
-
   position: relative;
   height: auto;
   display: grid;
@@ -1643,12 +1642,11 @@ body {
   grid-template-rows: repeat(2, auto);
   grid-gap: 2vw;
   padding: 0vw;
-  width: 84%;
-  margin-left: 9.5vw;
+  width: 92%;
+  margin-left: 12vw;
   border-radius: 1.5vw;
   transition: all 0.6s ease;
   margin-top: 1.5vw;
-
 }
 
 .box {
@@ -1663,12 +1661,12 @@ body {
 
 .discount-box {
   color: whitesmoke;
-  height: auto;
+  height: 15vw;
   padding: 1.5vw;
   display: flex;
   flex-direction: column;
   background-color: #121213;
-  grid-column: span 5;
+  grid-column: span 3;
   grid-row: span 1;
   overflow: hidden;
   align-items: flex-start;
@@ -1689,14 +1687,14 @@ h1 {
   background-clip: text;
   color: transparent;
   margin: 0;
-  font-size: 2vw;
+  font-size: 2.5vw;
 
 }
 
 p1 {
   margin-top: 0.6vw;
   margin-bottom: 0.2vw;
-  font-size: 1.6vw;
+  font-size: 1.8vw;
 }
 
 p2 {
@@ -1704,12 +1702,10 @@ p2 {
   text-align: left;
   width: 100%;
   margin: 0.5vw 0;
-  font-size: 1.25vw;
+  font-size: 1.4vw;
 }
-
-
 .font-box {
-  height: 18vw;
+  height: 25vw;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1721,16 +1717,14 @@ p2 {
 }
 
 .font-box img {
-
-  height: 25vw;
-  margin-top: 3vw;
-  width: 15vw;
+  height: 28vw;
+  margin-top: 1vw;
+  width: 20vw;
   object-fit: contain;
   display: block;
   transition: transform 0.5s ease-in-out;
   transform: scale(1.2);
-  margin-left: 0vw;
-
+  margin-left: -8vw;
 }
 
 .info {
@@ -1740,31 +1734,28 @@ p2 {
 }
 
 .font-box h1 {
-
-  line-height: 3.5vw;
-  margin-left: 2vw;
-  width: 100%;
-  text-align: left;
-  color: whitesmoke;
-  margin-top: 0vw;
-  font-size: 4vw;
-  animation: retroColor 6s infinite;
-  letter-spacing: 0.15vw;
-
+    line-height: 3.8vw;
+    margin-left: 4vw;
+    margin-right: 6vw;
+    margin-top: 0vw;
+    width: 100%;
+    text-align: left;
+    font-size: 4.5vw;
+    animation: retroColor 6s infinite;
+    letter-spacing: 0.15vw;
 }
 
 
 .font-box h2 {
-
-  margin-top: 3.5vw;
-  margin-left: 2vw;
+  margin-top: 1.5vw;
+  margin-left: 4vw;
   width: 100%;
   text-align: left;
-  font-size: 1.2vw;
+  font-size: 2vw;
   color: rgb(187, 174, 174);
 }
 
-#bento:hover .font-box img {
+.font-box:hover img {
   transform: scale(1.4);
 }
 
@@ -1855,17 +1846,17 @@ p2 {
 
 .sign-box {
   background-color: #121213;
-  height: 16vw;
-  grid-column: span 3;
-  grid-row: span 2;
+  height: 57vw;
+  width:100%;
+  grid-column: span 1;
+  grid-row: span 5;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   position: relative;
   overflow: hidden;
-  padding: 2vw;
+  padding: 1vw;
 }
-
 .Stack {
   height: 3vw;
   width: 100%;
@@ -1873,13 +1864,13 @@ p2 {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  margin-bottom: 0.5vw;
-  font-size: 2.2vw;
+  margin-top: 0.5vw;
+  margin-bottom: 0vw;
+  font-size: 2.7vw;
   border-radius: 1.5vw;
   text-align: left;
-  margin-left: 0.1vw;
+  margin-left: 1vw;
 }
-
 .bottom-section {
   height: auto;
   width: 100%;
@@ -1891,53 +1882,43 @@ p2 {
   position: relative;
   overflow: hidden;
   border: none;
-  margin-left: -2vw;
 }
-
 .bottom-section a {
   text-decoration: none;
 }
-
 .bottom-section * {
   position: relative;
   z-index: 2;
 }
-
 .bottom-section::before,
 .bottom-section::after {
   z-index: 1;
 }
-
 .bottom-section::after {
   content: '';
   position: absolute;
   background: transparent;
   border-radius: 1.5vw;
 }
-
 .language-btn {
-
-  width: 6vw;
+  width: 6.5vw;
   background-color: transparent;
   border-radius: 1.5vw;
-  height: 4vw;
+  height: 5vw;
   padding: 0.8vw 2vw;
   display: flex;
   align-items: center;
   position: relative;
 }
-
 .language-btn i {
-  width: 8vw;
-  font-size: 2.5vw;
+  width: 2vw;
+  font-size: 3vw;
   transition: transform 0.3s ease;
   color: white;
 }
-
 .language-btn:hover i {
   transform: rotate(360deg);
 }
-
 /* New animation styles */
 .language-btn span {
   position: absolute;
@@ -1948,32 +1929,48 @@ p2 {
   opacity: 0;
   pointer-events: none;
 }
-
 @keyframes textDrop {
-
   0% {
     opacity: 1;
     top: -0.1vw;
   }
-
   100% {
     opacity: 0;
     top: -0.1vw;
   }
 }
-
 .language-btn:hover span {
   animation: textDrop 2s ease-in-out forwards;
   opacity: 1;
 }
 
+/* New CSS for infinite scroll */
+.scroll-container {
+  height: 90%;
+  overflow: hidden;
+  position: relative;
+}
+
+.scroll-wrapper {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.5s ease-out;
+}
+
+.tech-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1vw 0;
+}
+
 .banner-box {
-  height: 21vw;
-  margin-top: -5.9vw;
-  grid-column: span 3;
+  height: 30vw;
+  grid-column: span 4;
   grid-row: span 1;
   background-color: #121213;
   text-align: left;
+  align-items: flex-start;
 }
 
 .education-section {
@@ -1999,26 +1996,26 @@ p2 {
 }
 
 #d1{
-  font-size: 1.1vw;
-  color:rgba(224, 219, 219, 0.822); 
-  margin-top: -0.4vw
+  font-size: 1.2vw;
+  color: whitesmoke;
+  margin-top: -0.2vw
 }
 
 
 .institution {
   
-  font-size: 1.5vw;
+  font-size: 2.2vw;
   color: whitesmoke;
 
 }
 
 .description {
   width: 95%;
-  font-size: 1.125vw;
+  font-size: 1.5vw;
   color: rgba(224, 219, 219, 0.822);
   line-height: 1.2;
-  margin-top: 0vw;
-  margin-bottom: -1vw;
+  margin-top: 1vw;
+  margin-bottom: 1vw;
 
 }
 
@@ -2031,7 +2028,7 @@ p2 {
 
 
 
-
+/* 
 #game-container {
 
   position: relative;
@@ -2043,16 +2040,16 @@ p2 {
   color: whitesmoke;
 
 
-}
+} */
 
 
 
 
-#game-container,
+/* #game-container,
 #game-container * {
   cursor: default;
 
-}
+} */
 
 .monster {
   position: absolute;
@@ -2096,6 +2093,7 @@ p2 {
 }
 
 #play-button {
+  display: none;
   position: absolute;
   width: 100%;
   height: 0;
@@ -2133,26 +2131,22 @@ p2 {
 
 
 .button-container {
-
   display: flex;
   flex-wrap: wrap;
   margin-top: 1vw;
   justify-content: center;
-  width: 65%;
-  margin-left: -0.5vw;
-
+  width: 74%;
+  margin-left: -1.5vw;
 }
 
 .social-btn {
-
-  width: 3vw;
+  width: 4vw;
   display: flex;
   justify-content: left;
-  padding: 1vw;
+  padding: 2vw;
   color: white;
   text-decoration: none;
-  border-radius: 1.5vw;
-  font-size: 1.8vw;
+  font-size: 2.8vw;
 }
 
 
@@ -2178,6 +2172,8 @@ p2 {
 
 
 .romo-box {
+  content: none;
+  display: none;
   margin-top: -12.1vw;
   height: 10vw;
   grid-column: span 3;
@@ -2201,74 +2197,180 @@ p2 {
   padding: 1vw;
 }
 
-.phone-box .text-container {
-  /* Added new container for text */
-  flex: 1;
-  margin-right: 1vw;
+.one-box {
+  height: 8vw;
+  grid-column: span 3;
+  grid-row: span 1;
+  overflow: hidden;
+  background-color: #121213;
+  justify-content: flex-start;
+  align-items: flex-start;
+  position: relative;
+  padding: 0;
 }
 
 .pd {
-  height: auto;
-  margin-bottom: 0vw;
-}
-
-.phone-box .pd p {
-  margin-top: 0.5vw;
-  margin-left: 0.5vw;
-  font-size: 2.4vw;
   width: 100%;
-  color: transparent;
-  background: linear-gradient(to right, #fa0e45, white);
-  -webkit-background-clip: text;
-  background-clip: text;
-}
-
-.resume-content {
+  height: 100%;
   display: flex;
-  flex-direction: row;
-  height: 5vw;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
 }
 
-.phone-box img {
-  height: 11vw;
-  width: 12vw;
-  margin-left: 1vw;
-  margin-top: -2vw;
-  flex-shrink: 0;
-  border-radius: 1.5vw;
-  transition: all 0.3s ease;
-
-}
-
-.phone-box:hover img {
-  filter: drop-shadow(0 0 0.5vw #cf1b42) drop-shadow(0 0 0.6vw #fa0e40) drop-shadow(0 0 0.9vw #fa0e40);
-}
-
-.phone-box a {
-  height: 4vw;
-  margin-top:-1vw;
-  margin-left: 0.5vw;
-  border: 0.2vw solid #fa0e40;
-  padding: 1.2vw;
-  color: #B1B1B2;
+.download-btn {
   text-decoration: none;
-  background-size: 20vw 20vw;
-  border-radius: 1.5vw;
-  animation: gradient 6s linear infinite;
-  width: 7vw;
-  font-size: 1.2vw;
-  display: inline-block;
-}
-
-
-  
-
-.phone-box a:hover{
-  
-  background-color:#fa0e40;
   color: white;
+  font-weight: bold;
+  position: relative;
+  z-index: 2;
+  transition: all 0.5s ease;
 }
 
+/* Water drop initial position */
+.pd::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  background-color: #fa0e40;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Water filling effect */
+.pd::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background-color: #fa0e40;
+  transition: height 0.5s ease-out;
+  opacity: 0.7;
+}
+
+/* Activate drop when hovering */
+.one-box:hover .pd::before {
+  opacity: 1;
+  animation: dropFall 0.6s ease-in forwards;
+}
+
+/* Fill container after drop falls */
+.one-box:hover .pd::after {
+  animation: fillWater 1.8s ease-out 0.6s forwards, waveEffect 1.5s ease-in-out 0.8s infinite;
+}
+
+/* Animation for water drop falling */
+@keyframes dropFall {
+  0% {
+    top: -50px;
+    border-radius: 50%;
+  }
+  70% {
+    top: calc(100% - 10px);
+    border-radius: 40% 40% 50% 50%;
+  }
+  100% {
+    top: calc(100% - 5px);
+    border-radius: 50% 50% 0 0;
+    width: 50px;
+    height: 10px;
+    opacity: 0;
+  }
+}
+
+/* Animation for water filling */
+@keyframes fillWater {
+  0% {
+    height: 0%;
+    border-radius: 50% 50% 0 0;
+  }
+  20% {
+    height: 5%;
+    border-radius: 8px 8px 0 0;
+  }
+  100% {
+    height: 100%;
+    border-radius: 0;
+  }
+}
+
+/* Text to arrow transition */
+.one-box:hover .download-btn p {
+  transform: scale(0);
+  transition: transform 0.5s ease;
+}
+
+.one-box:hover .download-btn::after {
+  content: "↓ CLICK ME";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.2rem;
+  white-space: nowrap;
+  opacity: 0;
+  animation: fadeIn 0.3s ease 1.5s forwards, arrowBounce 1s ease-in-out 1.8s infinite;
+}
+
+/* Normal text fade back in when not hovering */
+.one-box:not(:hover) .download-btn p {
+  transform: scale(1);
+  transition: transform 0.5s ease 0.5s;
+}
+
+/* Reverse animations when not hovering */
+.one-box:not(:hover) .pd::after {
+  height: 0%;
+  transition: height 0.8s ease-in;
+  animation: none;
+}
+
+.one-box:not(:hover) .download-btn::after {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Arrow bouncing animation */
+@keyframes arrowBounce {
+  0%, 100% {
+    transform: translate(-50%, -50%);
+  }
+  50% {
+    transform: translate(-50%, -40%);
+  }
+}
+
+/* Add wavy water surface effect */
+@keyframes waveEffect {
+  0% {
+    border-radius: 0% 0% 0 0;
+  }
+  50% {
+    border-radius: 1% 1.5% 0 0;
+  }
+  100% {
+    border-radius: 0% 0% 0 0;
+  }
+}
+  
 
 /* PAGE 2 PROJECTS @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
@@ -2722,13 +2824,12 @@ canvas {
 
 
 .logo-box {
-  height: 15vw;
+  height: 30vw;
   grid-column: span 2;
-  grid-row: span 1;
+  grid-row: span 3;
   background-color: #121213;
-  overflow:hidden;
+  overflow: hidden;
   border-right-color: 0.2vw solid #fa0e40;
-  
 }
 
 .slide-text {
@@ -2773,20 +2874,18 @@ canvas {
 }
 
 .card {
-
-  background-color:#121213;
+  background-color: #121213;
   border-radius: 2vw;
-  width: 18vw;
-  height: 14vw;
-  position: absolute; /* Allows overlapping */
+  width: 19vw;
+  height: 28vw;
+  position: absolute;
   transition: all 0.5s ease;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transform: translateX(-53%); /* Centers cards */
+  transform: translateX(-53%);
   border: 0.2vw solid #fa0e45;
   margin-left: 1vw;
   margin-top: 1vw;
-  
 }
 
 .card:nth-child(1) {
@@ -2836,18 +2935,26 @@ canvas {
 }
 
 .card i {
-  font-size: 2.7vw;
+  font-size: 3vw;
   margin-left: -13vw;
   color: whitesmoke;
-  
+  transition: font-size 0.3s ease;
 }
 
-.card img{
-  
-  height: 2.5vw;
+.card img {
+  height: 2.9vw;
   margin-left: -13vw;
   filter: invert(1);
   color: white;
+  transition: height 0.3s ease;
+}
+
+.card:hover i {
+  font-size: 5vw;
+}
+
+.card:hover img {
+  height: 5vw;
 }
 
 
@@ -2871,9 +2978,10 @@ canvas {
 
 
 .card p {
-  font-size: 1vw;
+  font-size: 2vw;
+  width: 100%;
   color: whitesmoke;
-  margin-bottom: -1vw;
+  margin-top: 4vw;
   display: none;
   transition: all 0.3s ease;
   
@@ -2889,14 +2997,14 @@ canvas {
   border-radius: 2vw;
   transition: all 0.3s ease;
   margin-top: -3vw;
-  width: 9vw;
+  width: 11vw;
   margin-left: 8vw;
   cursor: default;
   z-index: 100000s;
 }
 
 .card:hover {
-  width: 18vw;
+  width: 20vw;
   z-index: 2;
   left: 50%; /* Ensures expanded card is centered */
   transform: translateX(-50%);
@@ -2917,6 +3025,8 @@ canvas {
 .card:hover .card-link {
   display: block;
 }
+
+
 
 
 /* PAGE3 CONTACT         */
@@ -3168,7 +3278,6 @@ canvas {
   .font-box,
   .sign-box,
   .banner-box,
-  .romo-box,
   .phone-box {
     margin: 0;
     width: 100%;
@@ -3274,10 +3383,10 @@ canvas {
   transition: transform 0.3sease;
 }
 
-.romo-box{
+/* .romo-box{
 
   height: 25vw;
-}
+} */
 
 .bottom-section {
 

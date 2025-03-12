@@ -733,26 +733,26 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 1000);
 });
 
-// Add CSS to optimize the cursor
-document.addEventListener("DOMContentLoaded", () => {
-  const style = document.createElement('style');
-  style.textContent = `
-    .cursor {
-      pointer-events: none;
-      will-change: transform;
-      transform: translate3d(0, 0, 0);
-    }
-    .monster {
-      will-change: transform;
-      transform: translate3d(0, 0, 0);
-    }
-    .explosion {
-      will-change: transform, opacity;
-      transform: translate3d(0, 0, 0);
-    }
-  `;
-  document.head.appendChild(style);
-});
+// // Add CSS to optimize the cursor
+// document.addEventListener("DOMContentLoaded", () => {
+//   const style = document.createElement('style');
+//   style.textContent = `
+//     .cursor {
+//       pointer-events: none;
+//       will-change: transform;
+//       transform: translate3d(0, 0, 0);
+//     }
+//     .monster {
+//       will-change: transform;
+//       transform: translate3d(0, 0, 0);
+//     }
+//     .explosion {
+//       will-change: transform, opacity;
+//       transform: translate3d(0, 0, 0);
+//     }
+//   `;
+//   document.head.appendChild(style);
+// });
 
 // Add ability to disable particle effects for low-end devices
 document.addEventListener("DOMContentLoaded", () => {
@@ -797,3 +797,83 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(toggleBtn);
   }
 });
+
+ document.addEventListener("DOMContentLoaded", function() {
+      const scrollContainer = document.getElementById('scrollContainer');
+      const scrollInner = document.getElementById('scrollInner');
+      const techRows = document.querySelectorAll('.tech-row');
+      
+      // Clone the items to ensure continuous scroll
+      const originalHeight = scrollInner.offsetHeight;
+      
+      // Create clones
+      techRows.forEach(row => {
+        const clone = row.cloneNode(true);
+        scrollInner.appendChild(clone);
+      });
+      
+      // Initialize
+      let scrollPos = 0;
+      let animationId = null;
+      let isPaused = false;
+      
+      // Set the scroll speed (pixels per frame)
+      const getScrollSpeed = () => {
+        // Responsive speed based on viewport width
+        return window.innerWidth * 0.0006;
+      };
+      
+      let speed = getScrollSpeed();
+      
+      // Update speed on window resize
+      window.addEventListener('resize', () => {
+        speed = getScrollSpeed();
+      });
+      
+      // Pause on hover
+      scrollContainer.addEventListener('mouseenter', () => {
+        isPaused = true;
+      });
+      
+      scrollContainer.addEventListener('mouseleave', () => {
+        isPaused = false;
+      });
+      
+      // Individual tech items also pause scroll
+      techRows.forEach(row => {
+        row.addEventListener('mouseenter', () => {
+          isPaused = true;
+        });
+        
+        row.addEventListener('mouseleave', () => {
+          isPaused = false;
+        });
+      });
+      
+      // Smooth animation function using CSS transforms
+      function animate() {
+        if (!isPaused) {
+          scrollPos -= speed;
+          
+          // Reset position when a full cycle is complete
+          if (scrollPos <= -originalHeight) {
+            scrollPos = 0;
+          }
+          
+          // Apply transform with translateY for smoother animation
+          scrollInner.style.transform = `translateY(${scrollPos}px)`;
+        }
+        
+        animationId = requestAnimationFrame(animate);
+      }
+      
+      // Start the animation
+      animate();
+      
+      // Clean up on page unload
+      window.addEventListener('beforeunload', () => {
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+        }
+      });
+    });
