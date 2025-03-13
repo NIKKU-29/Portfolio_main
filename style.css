@@ -79,6 +79,32 @@ body {
   margin-bottom: 10vw;
 }
 
+@keyframes slideIn {
+  from {
+    transform: translate(-100%, -50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(-50%);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromTop {
+  0% {
+    transform: translate(-100%, -100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-100%, -50%);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-50%);
+    opacity: 1;
+  }
+}
+
 .navbar {
   position: fixed;
   top: 50%;
@@ -89,7 +115,11 @@ body {
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.03);
   height: 24vw;
   z-index: 10;
+  animation: slideInFromTop 2s ease-out 0.3s forwards;
+  opacity: 0;
 }
+
+
 
 .navbar__link {
   position: relative;
@@ -2225,6 +2255,7 @@ p2 {
   font-weight: bold;
   position: relative;
   z-index: 2;
+  font-size: 3vw;
   transition: all 0.5s ease;
 }
 
@@ -2314,7 +2345,7 @@ p2 {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  font-size: 1.2rem;
+  font-size: 3vw;
   white-space: nowrap;
   opacity: 0;
   animation: fadeIn 0.3s ease 1.5s forwards, arrowBounce 1s ease-in-out 1.8s infinite;

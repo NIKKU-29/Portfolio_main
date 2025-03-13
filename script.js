@@ -877,3 +877,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     });
+
+  const resumeLink = document.getElementById("resume-link");
+  if (resumeLink) {
+      resumeLink.addEventListener("click", function(event) {
+          event.preventDefault(); // Prevent immediate download
+
+          const link = this;
+          setTimeout(() => {
+              window.location.href = link.href; // Trigger download after 2 seconds
+          }, 2000); // Changed to 2 seconds to match the comment
+      });
+  }
