@@ -1,320 +1,3 @@
-class SpaceMonsterGame {
-  constructor(container) {
-    this.container = container;
-    this.elements = {
-      score: document.getElementById('score'),
-      playButton: document.getElementById('play-button'),
-      timer: document.getElementById('timer'),
-      overlay: null,
-      gameWindow: null
-    };
-    this.state = {
-      score: 0,
-      timeLeft: 20,
-      isPlaying: false,
-      activeMonsters: new Set(),
-      frameId: null
-    };
-    this.intervals = {
-      timer: null
-    };
-    this.lastTime = 0;
-    this.spawnAccumulator = 0;
-
-    // Pre-create elements for reuse
-    this.createGameElements();
-
-    // Bind methods to avoid recreating functions
-    this.boundDestroyMonster = this.destroyMonster.bind(this);
-    this.boundGameLoop = this.gameLoop.bind(this);
-
-    // Initial setup: hide timer, show play button, etc.
-    this.elements.timer.style.display = 'none';
-    this.elements.playButton.addEventListener('click', () => this.openGameWindow());
-  }
-
-  createGameElements() {
-    // Create overlay
-    this.elements.overlay = document.createElement('div');
-    this.elements.overlay.style.cssText = `
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      display: none; justify-content: center; align-items: center;
-      z-index: 1000001;
-    `;
-
-    // Create game window
-    this.elements.gameWindow = document.createElement('div');
-    this.elements.gameWindow.style.cssText = `
-      width: 80vw; height: 80vh; background: #101010;
-      position: relative; border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
-      cursor: default; overflow: hidden;
-      z-index: 1000001;
-    `;
-
-    // Create close button
-    const closeButton = document.createElement('button');
-    closeButton.textContent = '×';
-    closeButton.style.cssText = `
-      position: absolute; top: 0.2vw; right: 0.2vw;
-      background: none; border: none; color: white;
-      font-size: 2.2vw; cursor: pointer;
-      z-index: 1000002;
-    `;
-    closeButton.addEventListener('click', () => this.closeGameWindow());
-
-    // Append elements
-    this.elements.gameWindow.appendChild(closeButton);
-    this.elements.overlay.appendChild(this.elements.gameWindow);
-    document.body.appendChild(this.elements.overlay);
-  }
-
-  openGameWindow() {
-    // Remove any lingering modal before starting a new game
-    const existingModal = this.elements.gameWindow.querySelector('.game-over-modal');
-    if (existingModal) existingModal.remove();
-
-    this.elements.overlay.style.display = 'flex';
-    this.startGame();
-  }
-
-  closeGameWindow() {
-    // End game without showing modal (pass false)
-    this.endGame(false);
-    this.elements.overlay.style.display = 'none';
-
-    // Move score and timer back to the original container
-    this.container.appendChild(this.elements.score);
-    this.container.appendChild(this.elements.timer);
-
-    // Hide score and timer; show play button
-    this.elements.score.style.display = 'none';
-    this.elements.timer.style.display = 'none';
-    this.elements.playButton.style.display = 'block';
-
-    // Fully reset game state
-    this.resetGame();
-  }
-
-  startGame() {
-    if (this.state.isPlaying) return;
-
-    this.state.isPlaying = true;
-    this.state.score = 0;
-    this.state.timeLeft = 20;
-
-    // Hide play button, show score & timer in the game window
-    this.elements.playButton.style.display = 'none';
-    this.elements.score.style.display = 'block';
-    this.elements.timer.style.display = 'block';
-
-    // Ensure score and timer are inside gameWindow
-    if (!this.elements.gameWindow.contains(this.elements.score)) {
-      this.elements.gameWindow.appendChild(this.elements.score);
-    }
-    if (!this.elements.gameWindow.contains(this.elements.timer)) {
-      this.elements.gameWindow.appendChild(this.elements.timer);
-    }
-
-    this.elements.score.textContent = `Score: ${this.state.score}`;
-    this.elements.timer.textContent = `Time Left: ${this.state.timeLeft}s`;
-
-    this.startTimer();
-    this.lastTime = performance.now();
-    this.state.frameId = requestAnimationFrame(this.boundGameLoop);
-  }
-
-  gameLoop(timestamp) {
-    if (!this.state.isPlaying) return;
-    
-    const deltaTime = timestamp - this.lastTime;
-    this.lastTime = timestamp;
-    
-    // Accumulate time to spawn monsters every 1 second
-    this.spawnAccumulator += deltaTime;
-    if (this.spawnAccumulator >= 1000) {
-      this.spawnMonsters();
-      this.spawnAccumulator -= 1000;
-    }
-    
-    // Continue game loop
-    this.state.frameId = requestAnimationFrame(this.boundGameLoop);
-  }
-
-  startTimer() {
-    this.state.timeLeft = 20;
-    this.elements.timer.textContent = `Time Left: ${this.state.timeLeft}s`;
-    
-    clearInterval(this.intervals.timer);
-    this.intervals.timer = setInterval(() => {
-      this.state.timeLeft--;
-      this.elements.timer.textContent = `Time Left: ${this.state.timeLeft}s`;
-      if (this.state.timeLeft <= 0) {
-        this.endGame(); // default shows modal
-      }
-    }, 1000);
-  }
-
-  spawnMonsters() {
-    const fragment = document.createDocumentFragment();
-    const count = Math.floor(Math.random() * 3) + 1;
-    const rect = this.elements.gameWindow.getBoundingClientRect();
-
-    for (let i = 0; i < count; i++) {
-      const monster = document.createElement('div');
-      monster.classList.add('monster');
-      
-      // Use transform for positioning (better performance than left/top)
-      const x = Math.random() * (rect.width - 50);
-      const y = Math.random() * (rect.height - 50);
-      monster.style.transform = `translate(${x}px, ${y}px)`;
-      monster.style.position = 'absolute';
-      monster.style.willChange = 'transform';
-      
-      monster.addEventListener('click', this.boundDestroyMonster);
-      fragment.appendChild(monster);
-
-      this.state.activeMonsters.add(monster);
-      // Remove monster after 3 seconds if not clicked
-      setTimeout(() => {
-        if (monster.parentElement) {
-          monster.remove();
-          this.state.activeMonsters.delete(monster);
-        }
-      }, 3000);
-    }
-
-    this.elements.gameWindow.appendChild(fragment);
-  }
-
-  destroyMonster(e) {
-    const monster = e.target;
-    if (!this.state.activeMonsters.has(monster)) return;
-
-    const explosion = document.createElement('div');
-    explosion.classList.add('explosion');
-    
-    // Extract transform values for accurate explosion positioning
-    const computedStyle = window.getComputedStyle(monster).transform;
-    let x = 0, y = 0;
-    if (computedStyle && computedStyle !== 'none') {
-      const matrixValues = computedStyle.match(/matrix.*\((.+)\)/)[1].split(', ');
-      x = parseFloat(matrixValues[4]);
-      y = parseFloat(matrixValues[5]);
-    }
-    
-    explosion.style.transform = `translate(${x - 25}px, ${y - 25}px)`;
-    explosion.style.position = 'absolute';
-    explosion.style.willChange = 'opacity';
-    
-    this.elements.gameWindow.appendChild(explosion);
-
-    monster.remove();
-    this.state.activeMonsters.delete(monster);
-    this.incrementScore();
-
-    // Animate explosion and remove after finish
-    explosion.animate(
-      [
-        { opacity: 1, transform: `translate(${x - 25}px, ${y - 25}px) scale(0.8)` },
-        { opacity: 0, transform: `translate(${x - 25}px, ${y - 25}px) scale(1.2)` }
-      ],
-      { duration: 500, easing: 'ease-out' }
-    ).onfinish = () => explosion.remove();
-  }
-
-  incrementScore() {
-    this.state.score++;
-    this.elements.score.textContent = `Score: ${this.state.score}`;
-  }
-
-  /**
-   * Ends the game.
-   * @param {boolean} [showModal=true] - If true, display the Game Over modal.
-   */
-  endGame(showModal = true) {
-    if (!this.state.isPlaying) return;
-
-    this.state.isPlaying = false;
-    clearInterval(this.intervals.timer);
-    if (this.state.frameId) {
-      cancelAnimationFrame(this.state.frameId);
-      this.state.frameId = null;
-    }
-
-    // Remove any remaining monsters
-    this.state.activeMonsters.forEach(monster => monster.remove());
-    this.state.activeMonsters.clear();
-
-    if (showModal) {
-      this.showGameOverModal();
-    }
-  }
-  
-  showGameOverModal() {
-    const modal = document.createElement('div');
-    modal.classList.add('game-over-modal');
-    modal.style.cssText = `
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.9);
-      padding: 2rem;
-      border-radius: 10px;
-      text-align: center;
-      color: white;
-      z-index: 1000002;
-    `;
-    
-    const title = document.createElement('h2');
-    title.textContent = 'Game Over!';
-    
-    const scoreText = document.createElement('p');
-    scoreText.textContent = `Final Score: ${this.state.score}`;
-    
-    const button = document.createElement('button');
-    button.textContent = 'Play Again';
-    button.style.cssText = `
-      background: #fa0e45;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      margin-top: 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-    `;
-    
-    button.addEventListener('click', () => {
-      modal.remove();
-      this.resetGame();
-      this.startGame();
-    });
-    
-    modal.appendChild(title);
-    modal.appendChild(scoreText);
-    modal.appendChild(button);
-    
-    this.elements.gameWindow.appendChild(modal);
-  }
-
-  resetGame() {
-    // Remove existing modal if any
-    const existingModal = this.elements.gameWindow.querySelector('.game-over-modal');
-    if (existingModal) existingModal.remove();
-    
-    this.state.score = 0;
-    this.state.timeLeft = 20;
-    this.elements.score.textContent = `Score: ${this.state.score}`;
-    this.elements.timer.textContent = `Time Left: ${this.state.timeLeft}s`;
-    
-    // Hide score and timer; show play button
-    this.elements.score.style.display = 'none';
-    this.elements.timer.style.display = 'none';
-    this.elements.playButton.style.display = 'block';
-  }
-}
 
 
 // Optimize cursor handling with RAF instead of throttling
@@ -323,6 +6,19 @@ class CursorManager {
     this.cursor = document.createElement('div');
     this.cursor.classList.add('cursor');
     document.body.appendChild(this.cursor);
+
+    // Add basic cursor styles
+    this.cursor.style.cssText = `
+      position: fixed;
+      pointer-events: none;
+      width: 15px;
+      height: 15px;
+      background: #fa0e45;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 999999999;
+      transition: transform 0.15s, opacity 0.15s;
+    `;
 
     this.boundMouseMove = this.throttle(this.handleMouseMove.bind(this), 16);
     this.boundMouseOver = this.handleMouseOver.bind(this);
@@ -349,7 +45,6 @@ class CursorManager {
     }
 
     this.cursor.style.display = 'block';
-    this.cursor.style.position = 'fixed';
     this.cursor.style.left = `${e.clientX}px`;
     this.cursor.style.top = `${e.clientY}px`;
   }
@@ -364,7 +59,7 @@ class CursorManager {
       e.target.tagName === 'I' ||
       e.target.tagName === 'SPAN'
     ) {
-      this.cursor.classList.add('link-hover');
+      this.cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
     }
   }
 
@@ -378,9 +73,10 @@ class CursorManager {
       e.target.tagName === 'I' ||
       e.target.tagName === 'SPAN'
     ) {
-      this.cursor.classList.remove('link-hover');
+      this.cursor.style.transform = 'translate(-50%, -50%) scale(1)';
     }
   }
+
   setupEventListeners() {
     document.addEventListener('mousemove', this.boundMouseMove);
     document.addEventListener('mouseover', this.boundMouseOver);
@@ -610,11 +306,7 @@ function showError(fieldId, message) {
 // Initialize everything with proper timing
 document.addEventListener("DOMContentLoaded", () => {
   // Initialize base functionality first
-  const gameContainer = document.getElementById("game-container");
-  if (gameContainer) {
-    new SpaceMonsterGame(gameContainer);
-    new CursorManager();
-  }
+  new CursorManager();
   
   // Initialize smooth scroll
   document.querySelectorAll('.navbar__link').forEach(anchor => {
