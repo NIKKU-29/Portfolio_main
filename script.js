@@ -1,6 +1,3 @@
-
-
-// Optimize cursor handling with RAF instead of throttling
 class CursorManager {
   constructor() {
     this.cursor = document.createElement('div');
