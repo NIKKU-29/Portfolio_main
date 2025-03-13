@@ -517,7 +517,7 @@ function initGSAPAnimations() {
           delay: index * 0.1, // Shorter delay
           scrollTrigger: {
             trigger: card,
-            start: "top 85%", 
+            start: "top 95%", // Changed from 85% to 95% to trigger earlier
             toggleActions: "play none none none",
           },
         }

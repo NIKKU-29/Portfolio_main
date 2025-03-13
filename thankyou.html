@@ -19,8 +19,6 @@
         }
 
         body {
-            
-
             font-family: 'nin', sans-serif;
             min-height: 100vh;
             display: flex;
@@ -28,21 +26,98 @@
             align-items: center;
             background: linear-gradient(135deg, #af2747 0%, #fa0e45 100%);
             color: white;
+            overflow: hidden;
+        }
+
+        .loading-container {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            position: absolute;
+            z-index: 3;
+            width: 400px;
+        }
+
+        .loading-text {
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            opacity: 0;
         }
 
         .container {
             text-align: center;
             padding: 2rem;
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
             border-radius: 20px;
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
             opacity: 0;
             transform: translateY(30px);
+            position: absolute;
+            z-index: 1;
+            width: 400px;
         }
 
-        h1 {
+        .games-container {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            position: absolute;
+            transform: translateX(100%);
+            opacity: 0;
+            z-index: 2;
+            width: 400px;
+        }
 
+        .game-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            width: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .game-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .game-card p {
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .play-btn {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s ease;
+        }
+
+        .play-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Rest of your existing styles */
+        h1 {
             margin-top: 2vw;
             font-size: 3rem;
             margin-bottom: 1rem;
@@ -104,7 +179,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            
         }
 
         .success-checkmark .check-icon::before {
@@ -119,6 +193,11 @@
 </head>
 
 <body>
+    <div class="loading-container">
+        <h1>Processing...</h1>
+        <p class="loading-text" id="loadingText">Creating your response...</p>
+    </div>
+
     <div class="container">
         <div class="success-checkmark">
             <div class="check-icon"></div>
@@ -129,55 +208,129 @@
         <p>I'll personally respond to you as soon as possible!</p>
         <div class="button-container">
             <a href="index.html" class="button">Return Home</a>
-         
+        </div>
+    </div>
+
+    <div class="games-container">
+        <h1>Want to Play Some Games?</h1>
+        <p>While you wait, check out these fun mini-games I created!</p>
+        <div class="game-cards">
+            <div class="game-card">
+                <h3>Tetris Game</h3>
+                <p>A Tetris clone I built using JavaScript. Clear lines to score points!</p>
+                <a href="https://tetris-bob-game.vercel.app/" target="_blank" class="play-btn">Play Now</a>
+            </div>
+            <div class="game-card">
+                <h3>Monster Killer</h3>
+                <p>An action game I developed where you fight monsters and level up!</p>
+                <a href="#" class="play-btn">Play Now</a>
+            </div>
         </div>
     </div>
 
     <script>
-        // GSAP Animations
-        window.onload = function () {
-            // Main container animation
-            gsap.to(".container", {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                ease: "power4.out"
-            });
+        // Check if this is a fresh page load or back navigation
+        if (performance.navigation.type !== 2) { // 2 is TYPE_BACK_FORWARD
+            window.onload = function () {
+                const loadingTexts = [
+                    "Creating your response...",
+                    "Sending to Nemish...",
+                    "Almost there...",
+                    "Processing your message..."
+                ];
+                let currentTextIndex = 0;
 
-            // Checkmark animation
-            gsap.to(".success-checkmark", {
-                scale: 1,
-                duration: 0.5,
-                delay: 0.3,
-                ease: "back.out(1.7)"
-            });
+                // Show loading text animation
+                const loadingText = document.getElementById("loadingText");
+                gsap.to(".loading-text", {
+                    opacity: 1,
+                    duration: 0.5,
+                    repeat: -1,
+                    yoyo: true,
+                    onRepeat: function() {
+                        currentTextIndex = (currentTextIndex + 1) % loadingTexts.length;
+                        loadingText.textContent = loadingTexts[currentTextIndex];
+                    }
+                });
 
-            // Emoji animation
-            gsap.from(".emoji", {
-                scale: 0,
-                rotation: 180,
-                duration: 0.7,
-                delay: 0.5,
-                ease: "back.out(1.7)"
-            });
+                // After 3 seconds, show the games container
+                setTimeout(() => {
+                    gsap.to(".loading-container", {
+                        x: "-50%",
+                        opacity: 0,
+                        duration: 1,
+                        ease: "power2.inOut"
+                    });
 
-            // Button container animation
-            gsap.from(".button-container", {
-                y: 20,
-                opacity: 0,
-                duration: 0.5,
-                delay: 0.8,
-                ease: "power2.out"
-            });
+                    gsap.to(".games-container", {
+                        x: "0%",
+                        opacity: 1,
+                        duration: 1,
+                        ease: "power2.inOut"
+                    });
+                }, 3000);
 
-            // Continuous floating animation for the emoji
-            gsap.to(".emoji", {
-                y: -10,
-                duration: 1.5,
-                repeat: -1,
-                yoyo: true,
-                ease: "power1.inOut"
-            });
+                // After 6 seconds, show the thank you message
+                setTimeout(() => {
+                    gsap.to(".container", {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        ease: "power4.out"
+                    });
+
+                    gsap.to(".success-checkmark", {
+                        scale: 1,
+                        duration: 0.5,
+                        delay: 0.3,
+                        ease: "back.out(1.7)"
+                    });
+
+                    gsap.from(".emoji", {
+                        scale: 0,
+                        rotation: 180,
+                        duration: 0.7,
+                        delay: 0.5,
+                        ease: "back.out(1.7)"
+                    });
+
+                    gsap.from(".button-container", {
+                        y: 20,
+                        opacity: 0,
+                        duration: 0.5,
+                        delay: 0.8,
+                        ease: "power2.out"
+                    });
+
+                    gsap.to(".emoji", {
+                        y: -10,
+                        duration: 1.5,
+                        repeat: -1,
+                        yoyo: true,
+                        ease: "power1.inOut"
+                    });
+
+                    gsap.to(".container", {
+                        x: "-50%",
+                        duration: 1,
+                        ease: "power2.inOut"
+                    });
+
+                    gsap.to(".games-container", {
+                        x: "60%",
+                        duration: 1,
+                        ease: "power2.inOut"
+                    });
+                }, 6000);
+            }
+        } else {
+            // If coming back from game, show final state immediately
+            document.querySelector('.loading-container').style.display = 'none';
+            document.querySelector('.container').style.opacity = '1';
+            document.querySelector('.container').style.transform = 'translateX(-50%)';
+            document.querySelector('.games-container').style.transform = 'translateX(60%)';
+            document.querySelector('.games-container').style.opacity = '1';
+            document.querySelector('.success-checkmark').style.transform = 'scale(1)';
         }
     </script>
 </body>
