@@ -305,8 +305,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize base functionality first
   new CursorManager();
   
-  // Initialize smooth scroll
+  // Initialize smooth scroll and handle span visibility
   document.querySelectorAll('.navbar__link').forEach(anchor => {
+    const span = anchor.querySelector('span');
+    
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
       const targetId = this.getAttribute('href').substring(1);
@@ -315,8 +317,23 @@ document.addEventListener("DOMContentLoaded", () => {
       if (targetElement) {
         targetElement.scrollIntoView({
           behavior: 'smooth',
-          block: 'start'
+          block: 'start' 
         });
+      }
+    });
+
+    // Handle hover separately from click
+    anchor.addEventListener('mouseenter', () => {
+      if (span) {
+        span.style.opacity = '1';
+        span.style.pointerEvents = 'auto';
+      }
+    });
+
+    anchor.addEventListener('mouseleave', () => {
+      if (span) {
+        span.style.opacity = '0'; 
+        span.style.pointerEvents = 'none';
       }
     });
   });
