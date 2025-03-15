@@ -2959,10 +2959,18 @@ canvas {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~GAMES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 
+#gameSS{
+  background: linear-gradient(to right, #fa0e45, white, white,white);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 6vw;
+}
+
 
 .games-box {
   
-  border-radius: 20px;
+  border-radius: 1.5vw;
   padding: 2vw;
   margin: 2vw;
   display: inline-block;
@@ -2973,8 +2981,8 @@ canvas {
 .games-box h1 {
   color: #fff;
   text-align: left;
-  margin-bottom: 30px;
-  font-size: 2.5em;
+  margin-bottom: 2vw;
+  font-size: 10vw;
 }
 
 .games-container {
@@ -2983,17 +2991,18 @@ canvas {
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
-  gap: 30px;
+  gap: 1vw;
   background: #0f0f0f;
   padding: 2vw;
   border-radius: 2vw;
+  justify-content: space-evenly;
 }
 
 .game-card {
   background: #1a1a1a;
-  border-radius: 15px;
-  padding: 25px;
-  width: 300px;
+  border-radius: 1vw;
+  padding: 1.5vw;
+  width: 22vw;
   transition: transform 0.3s ease;
 }
 
